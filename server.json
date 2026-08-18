@@ -1,0 +1,59 @@
+{
+  "app": "Trico",
+  "latest_version": "1.0",
+  "exe_url": "https://github.com/shetom1234-dotcom/Trico/blob/main/Trico.exe",
+  "sha256": "PUT_TRICO_EXE_SHA256_HERE",
+  "notes": "Trico v1.0",
+  "devices": {
+    "09041172": {
+      "name": "CRICSPKOEN",
+      "active": true,
+      "message": "THX FOR TRUST TRICO BRO"
+    },
+    "48386888": {
+      "name": "ALL INDIA SPORT",
+      "active": true,
+      "message": "Have a great match day! Your Trico terminal is ready."
+    },
+    "79553454": {
+      "name": "Arjun",
+      "active": true,
+      "message": "Welcome My Buddy"
+    },
+    "31589462": {
+      "name": "Rohan",
+      "active": true,
+      "message": "Rohan, your premium scoreboard access is active. Enjoy!"
+    },
+    "86420371": {
+      "name": "Vikram",
+      "active": true,
+      "message": "Welcome Vikram! Wishing you a powerful Trico session."
+    },
+    "59274136": {
+      "name": "Amit",
+      "active": true,
+      "message": "Amit, your Trico setup is online and ready to go."
+    },
+    "14763820": {
+      "name": "Karan",
+      "active": true,
+      "message": "Welcome Karan! Live cricket data is waiting for you."
+    },
+    "93825147": {
+      "name": "Sameer",
+      "active": true,
+      "message": "Sameer, enjoy your premium Trico experience."
+    },
+    "67142095": {
+      "name": "Dev",
+      "active": true,
+      "message": "Welcome Dev! Hope today's scoreboard session goes perfectly."
+    },
+    "20497531": {
+      "name": "Aditya",
+      "active": false,
+      "message": "Aditya, your Trico access is currently disabled."
+    }
+  }
+}
