@@ -1,0 +1,3894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="version" content="v1.0.6">
+  <title>Glossy 3D Box with Flower Shapes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@100..900&display=swap" rel="stylesheet">
+  <style>
+:root {
+    --color4: rgba(255,255,255,0.6);
+    --color5: rgba(255,255,255,0);
+    --color6: #3b086e;
+    --color7: #093373;
+    --text-shadow-style: 4px 4px 4px rgba(0,0,0,0.8),8px 8px 6px rgba(0,0,0,0.6),-3px -3px 5px rgba(255,255,255,0.1);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 1920px;
+    height: 1080px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+video {
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+.left-click,
+.right-click {
+    position: absolute;
+    top: 52%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 80%;
+    border-radius: 5px;
+    text-align: center;
+    line-height: 100px;
+    font-size: 30px;
+    color: white;
+    font-weight: bold;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.left-click {
+    left: 1px;
+}
+
+.right-click {
+    right: 1px;
+}
+
+.box {
+    box-sizing: border-box;
+    position: absolute;
+    top: 120px;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 120px);
+    margin: 0;
+    background-color: transparent;
+    background-image: none;
+    background-blend-mode: normal;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 15px;
+    border: 2px solid rgba(255,255,255,0.6);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4),0 4px 10px rgba(0,0,0,0.3);
+    transform: scaleX(0);
+    opacity: 0;
+    transform-origin: center;
+    transition: transform 0.5s ease,opacity 0.5s ease;
+}
+
+.open {
+    transform: scaleX(1);
+    opacity: 1;
+}
+
+.box:not(.open) {
+    pointer-events: none;
+}
+
+.header {
+    position: absolute;
+    top: 0;
+    width: 99.6%;
+    height: 120px;
+    background: green;
+    border-radius: 15px;
+    color: white;
+    display: flex;
+    font-family: "Rajdhani",sans-serif;
+    justify-content: center;
+    align-items: center;
+    font-size: 100px;
+    font-weight: bold;
+    box-shadow: inset 0px -4px 10px rgba(0,0,0,0.7),inset 0px 4px 10px rgba(0,0,0,0.7),0px 8px 20px rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255,255,255,0.2);
+    text-shadow: var(--text-shadow-style);
+}
+
+.Name_Box {
+    display: inline-flex;
+    font-family: "Inter Tight",sans-serif;
+    font-stretch: condensed;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    font-size: 80px;
+    color: white;
+    font-weight: 900;
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    border-radius: 30px;
+    width: 44%;
+    white-space: nowrap;
+    height: 130px;
+    background-color: var(--color6);
+    z-index: 9;
+    border: 4px solid white;
+}
+
+.Name_Box2 {
+    display: inline-flex;
+    font-family: "Inter Tight",sans-serif;
+    font-stretch: condensed;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    font-size: 80px;
+    color: white;
+    font-weight: 900;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 44%;
+    border-radius: 30px;
+    height: 130px;
+    background-color: var(--color7);
+    z-index: 9;
+    white-space: nowrap;
+    border: 4px solid white;
+}
+
+.result-circle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+    margin: 13px;
+    border-radius: 50%;
+    border: 5px solid #0f99c6;
+    font-family: "Rajdhani";
+    font-size: 60px;
+    font-weight: 900;
+    color: white;
+    text-align: center;
+}
+
+.result-circle.win {
+    background-color: green;
+    border-color: green;
+}
+
+.result-circle.lose {
+    background-color: red;
+    border-color: red;
+}
+
+.result-circle.draw {
+    background-color: white;
+    color: #333;
+    border-color: #ddd;
+}
+
+.circular_flag {
+    display: none;
+    position: absolute;
+    top: 35%;
+    transform: translateY(-50%);
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 5px solid white;
+    z-index: 10;
+}
+
+.team-flag-left {
+    left: 12%;
+}
+
+.team-flag-right {
+    right: 12%;
+}
+
+.slide-1-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    padding: 5px;
+}
+
+.slide-box,
+.slide-box4 {
+    width: 103.5%;
+    max-height: 160px;
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    font-family: "Montserrat",sans-serif;
+    font-weight: bold;
+    border-radius: 10px;
+    background-color: #07a010;
+    background-clip: border-box;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 6px rgba(0,0,0,0.9),0 0 10px rgba(0,0,0,0.6),0 0 20px rgba(0,0,0,0.3);
+}
+
+.slide-box4 {
+    margin: 5px 0;
+    width: 97%;
+    border-radius: 5px;
+    background: linear-gradient(135deg,#1123db,#db1145);
+    max-height: 200px;
+    opacity: 0;
+    box-shadow: inset 0 0 40px rgba(0,0,0,0.3),inset 0 0 40px rgba(0,0,0,0.3),0 0 80px rgba(0,0,0,0.8);
+}
+
+.slide-box4::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle,var(--color4),var(--color5) 70%);
+    transform: rotate(-45deg);
+    animation: shine 8s linear infinite;
+    z-index: 1;
+    pointer-events: none;
+}
+
+@keyframes shine {
+    0% {
+        transform: translateX(-150%) translateY(-150%) rotate(-40deg);
+    }
+    100% {
+        transform: translateX(150%) translateY(150%) rotate(-40deg);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(800px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+#box-2::before {
+    animation-delay: 0.2s;
+}
+
+#box-3::before {
+    animation-delay: 0.4s;
+}
+
+#box-4::before {
+    animation-delay: 0.6s;
+}
+
+#box-5::before {
+    animation-delay: 0.8s;
+}
+
+#box-6::before {
+    animation-delay: 1s;
+}
+
+.left_side_slide1,
+.left_side_slide2 {
+    display: flex;
+    width: 50%;
+    height: 100%;
+    flex-direction: inline-flex;
+    justify-content: left;
+    align-items: center;
+}
+
+.left_side_slide2 {
+    justify-content: right;
+}
+
+.circle {
+    margin: 20px;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.5);
+    overflow: hidden;
+    position: relative;
+    background-size: 140% 140%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.text-right_slide6,
+.text-left_slide6 {
+    color: #ffffff;
+    font-weight: bold;
+    text-align: left;
+    text-shadow: var(--text-shadow-style);
+    font-size: 100px;
+}
+
+#slide-3 .slide-1-container {
+    box-sizing: border-box;
+    padding: 6px 14px;
+    gap: 4px;
+    overflow: hidden;
+}
+
+#slide-3 .slide-box,
+#slide-3 .slide-box4 {
+    width: 100%;
+    min-height: 0;
+    max-height: none;
+    margin: 0;
+    flex: 1 1 0;
+    border-radius: 8px;
+}
+
+.head_to_head-left {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100%;
+    padding: 0 0 0 30px;
+    box-sizing: border-box;
+    font-family: "Rajdhani", sans-serif;
+    font-weight: 700;
+    font-size: 60px;
+    text-align: left;
+}
+
+.head_to_head-center {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 0 10px;
+    box-sizing: border-box;
+    font-family: "Rajdhani", sans-serif;
+    font-weight: 700;
+    font-size: 60px;
+    color: orange;
+    text-shadow: var(--text-shadow-style);
+    text-align: center;
+    white-space: nowrap;
+}
+
+.head_to_head-right {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 100%;
+    padding: 0 30px 0 0;
+    box-sizing: border-box;
+    font-family: "Rajdhani", sans-serif;
+    font-weight: 700;
+    font-size: 60px;
+    text-align: right;
+}
+
+.head-to-head-side-line {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 1;
+}
+
+.head_to_head-right .head-to-head-side-line {
+    justify-content: flex-end;
+}
+
+.head_to_head-left .head-to-head-side-line {
+    justify-content: flex-start;
+}
+
+.head-to-head-team-name {
+    font-family: "Rajdhani", sans-serif;
+    font-size: 56px;
+    font-weight: 700;
+    color: white;
+    line-height: 1;
+}
+
+.head-to-head-score {
+    font-family: "Rajdhani", sans-serif;
+    font-size: 48px;
+    font-weight: 700;
+    color: white;
+    line-height: 1;
+}
+
+.center-section {
+    font-family: "Roboto",sans-serif;
+    font-weight: bold;
+    display: flex;
+    text-align: center;
+    font-size: 140px;
+    white-space: nowrap;
+    text-shadow: var(--text-shadow-style);
+}
+
+.slide5_fullbox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    margin-top:-77px;
+}
+
+.slide5_upper_box {
+    display: flex;
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    height: 100px;
+    background: linear-gradient(135deg,#264928,#bba309);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3),0 8px 15px rgba(0,0,0,0.2);
+    justify-content: center;
+    align-items: center;
+    font-family: "Rajdhani";
+    font-weight: 700;
+    font-size: 80px;
+    text-transform: uppercase;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: white;
+    border: 3px solid #ddd;
+}
+
+.slide5_imagebox {
+    display: flex;
+    margin-top: 50px;
+    width: 97%;
+    height: 45%;
+    justify-content: space-between;
+}
+
+.slide5_namebox {
+    width: 95%;
+    margin-top: 30px;
+    margin-left: 100px;
+    display: flex;
+    font-family: "Rajdhani";
+    font-weight: bold;
+    color: gold;
+    font-size: 100px;
+    justify-content: space-between;
+    text-shadow: var(--text-shadow-style);
+}
+
+.slide5_name2 {
+    margin-left: 170px;
+    text-shadow: var(--text-shadow-style);
+    color: red;
+}
+
+.slide5_name3 {
+    margin-right: 60px;
+}
+
+.weather-data {
+    display: flex;
+    justify-content: center;
+    color: white;
+    font-size: 110px;
+    font-weight: bold;
+}
+
+.slide6_fullbox {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 50px;
+    border-radius: 20px;
+    box-shadow: 10px 10px 20px rgba(0,0,0,0.2);
+    font-family: "Rajdhani", sans-serif;
+    font-weight: 700;
+}
+
+.rectangle {
+    width: 35%;
+    height: 90%;
+    background: linear-gradient(145deg,rgba(255,165,0,0.8),rgba(75,0,130,0.8));
+    border-radius: 30px;
+    border: 4px solid white;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.3),-5px 7px 15px rgba(0,0,0,0.7);
+}
+
+.slide-6-circle {
+    display: flex;
+    margin-top: 50px;
+    width: 480px;
+    height: 480px;
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    align-items: center;
+    border: 4px solid white;
+    justify-content: center;
+}
+
+.left,
+.right {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+}
+
+.left {
+    left: 0;
+}
+
+.right {
+    right: 0;
+}
+
+.inner-circle {
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    text-align: center;
+    font-family: "Rajdhani", sans-serif;
+    font-size: 60px;
+    font-weight: 700;
+    -webkit-text-stroke: 1px rgba(0,0,0,0.55);
+    paint-order: stroke fill;
+    align-items: center;
+    color: gold;
+    text-shadow: 6px 6px 5px rgba(0,0,0,0.7),4px 4px 10px rgba(0,0,0,0.5),2px 2px 15px rgba(0,0,0,0.3);
+    width: 83%;
+    height: 83%;
+    background-color: grey;
+    border-radius: 50%;
+    border: 5px solid white;
+    z-index: 2;
+}
+
+.slide6-box {
+    display: flex;
+    font-family: "Rajdhani", sans-serif;
+    font-size: 60px;
+    font-weight: 700;
+    -webkit-text-stroke: 1px rgba(0,0,0,0.55);
+    paint-order: stroke fill;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    width: 92%;
+    height: 80px;
+    margin-top: 30px;
+    background: linear-gradient(145deg,#d27cdf,#6aecea);
+    border-radius: 10px;
+    border: 3px solid black;
+    box-shadow: 5px 5px 15px rgba(255,255,255,0.3),-5px -10px 15px rgba(0,0,0,0.7);
+}
+
+.right-boxes {
+    width: 59%;
+    margin-left: 60px;
+    height: 88%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 18px;
+}
+
+.right-box,
+.right-box2 {
+    display: flex;
+    width: 96%;
+    height: 106px;
+    background: linear-gradient(135deg,#db1145,#db1145);
+    border-radius: 100px;
+    color: white;
+    font-family: "Rajdhani", sans-serif;
+    font-size: 50px;
+    font-weight: 700;
+    -webkit-text-stroke: 1px rgba(0,0,0,0.55);
+    paint-order: stroke fill;
+    text-shadow: 6px 6px 5px rgba(0,0,0,0.7),4px 4px 10px rgba(0,0,0,0.5),2px 2px 15px rgba(0,0,0,0.3);
+    align-items: center;
+    padding-left: 25px;
+    padding-right: 25px;
+    justify-content: space-between;
+    border-width: 0 0 7px 0;
+    border-style: solid;
+    border-color: white;
+    opacity: 0;
+    animation: slideUp 2s ease-in-out forwards;
+    box-shadow: 3px 4px 15px rgba(0,0,0,0.4),-5px 7px 20px rgba(0,0,0,0.7);
+    position: relative;
+    overflow: hidden;
+}
+
+.right-box::before,
+.right-box2::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: rgba(255,255,255,0.3);
+    animation: shine 5s infinite linear;
+    border-radius: 50%;
+}
+
+.right-box2 {
+    background: linear-gradient(35deg,#1123db,#1123db);
+}
+
+.right-box1 {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    font-family: "Rajdhani", sans-serif;
+    font-size: 50px;
+    font-weight: 700;
+    width: 100%;
+    height: 150px;
+    border-radius: 10px;
+    margin-bottom: 14px;
+}
+
+.right-box1-2 {
+    display: flex;
+    width: 48%;
+    height: 75%;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid white;
+    background: linear-gradient(180deg,#123d88,#08265e);
+    border-radius: 20px;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.4),-5px 7px 20px rgba(0,0,0,0.8);
+    font-family: "Rajdhani", sans-serif;
+    font-weight: 700;
+    color: white;
+    -webkit-text-stroke: 1px rgba(0,0,0,0.45);
+    paint-order: stroke fill;
+}
+
+.slide7_fullbox {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    border-radius: 20px;
+}
+
+.slide7_Image_Box {
+    display: flex;
+    margin-top: -550px;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.pitch_video {
+    position: absolute;
+    top: 36%;
+    display: block;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+
+.probability-box {
+    display: flex;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 250px;
+    margin-right: auto;
+    z-index: 3;
+    background-color: rgba(114,0,203,0.1);
+    border-radius: 5px;
+    justify-content: space-between;
+    align-items: center;
+    font-family: "Rajdhani",sans-serif;
+    position: absolute;
+    overflow: hidden;
+    box-shadow: 0 0 6px rgba(255,255,255,0.9),0 0 10px rgba(255,255,255,0.6),0 0 20px rgba(255,255,255,0.3);
+}
+
+.team {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.team-namee {
+    font-weight: bold;
+    margin-top: 3px;
+    font-size: 80px;
+    color: white;
+    text-shadow: var(--text-shadow-style);
+}
+
+.team1-probability {
+    font-weight: bold;
+    color: gold;
+    font-size: 100px;
+    margin-left: 30px;
+    margin-top: -5px;
+    padding-right: 5px;
+    text-shadow: var(--text-shadow-style);
+}
+
+.team2-probability {
+    font-weight: bold;
+    color: gold;
+    font-size: 100px;
+    margin-right: 30px;
+    margin-top: -5px;
+    padding-left: 10px;
+    text-shadow: var(--text-shadow-style);
+}
+
+.divider {
+    margin-top: 100px;
+    width: 60%;
+    height: 30px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 50px;
+}
+
+.winning-prob-text {
+    font-size: 60px;
+    margin-top: -100px;
+    color: cyan;
+    font-weight: bold;
+}
+
+.slide7_bottom_Box {
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 280px;
+    background: linear-gradient(135deg,#51c218,#302b63,#c83621);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.slide8_fullbox {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    box-sizing: border-box;
+    padding: 55px 80px;
+    font-family: "Rajdhani", sans-serif;
+}
+
+.umpire-row {
+    width: 92%;
+    height: 190px;
+    display: grid;
+    grid-template-columns: 34% 66%;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0 45px;
+    border: 3px solid rgba(255,255,255,0.85);
+    border-radius: 28px;
+    background: linear-gradient(135deg,rgba(12,36,72,0.96),rgba(4,16,40,0.98));
+    box-shadow: inset 0 4px 12px rgba(255,255,255,0.12),
+                inset 0 -8px 18px rgba(0,0,0,0.35),
+                0 12px 22px rgba(0,0,0,0.42);
+    overflow: hidden;
+}
+
+.umpire-row:nth-child(2) {
+    background: linear-gradient(135deg,rgba(76,24,112,0.96),rgba(35,9,65,0.98));
+}
+
+.umpire-row:nth-child(3) {
+    background: linear-gradient(135deg,rgba(12,92,74,0.96),rgba(4,45,39,0.98));
+}
+
+.umpire-label {
+    font-family: "Rajdhani", sans-serif;
+    font-size: 74px;
+    font-weight: 700;
+    color: white;
+    text-transform: uppercase;
+    white-space: nowrap;
+    text-shadow: 3px 4px 5px rgba(0,0,0,0.7);
+}
+
+.umpire-value {
+    min-width: 0;
+    font-family: "Rajdhani", sans-serif;
+    font-size: 78px;
+    font-weight: 700;
+    color: #ffd83d;
+    text-transform: uppercase;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-shadow: 3px 4px 5px rgba(0,0,0,0.7);
+}
+
+#slide-1.team-form-mode .Name_Box,
+#slide-1.team-form-mode .Name_Box2 {
+    bottom: 155px;
+}
+
+.team-form-results {
+    position: absolute;
+    bottom: 20px;
+    width: 44%;
+    height: 115px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-sizing: border-box;
+    z-index: 12;
+    border: 4px solid white;
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: inset 0 0 18px rgba(0,0,0,0.55),0 8px 18px rgba(0,0,0,0.45);
+}
+
+.team-form-results-left {
+    left: 20px;
+    background-color: var(--color6);
+}
+
+.team-form-results-right {
+    right: 20px;
+    background-color: var(--color7);
+}
+
+.team-form-results .result-circle {
+    width: 90px;
+    height: 90px;
+    margin: 4px;
+    flex: 0 0 90px;
+    font-size: 55px;
+}
+
+.winning-team-value {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.preview-selector-panel {
+    position: fixed;
+    top: 58px;
+    right: 42px;
+    z-index: 1001;
+    display: none;
+    width: 340px;
+    padding: 16px;
+    box-sizing: border-box;
+    border: 2px solid rgba(255,255,255,0.8);
+    border-radius: 12px;
+    background: rgba(4,15,50,0.96);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+    color: #fff;
+    font-family: "Rajdhani",sans-serif;
+}
+
+.preview-selector-panel.open {
+    display: block;
+}
+
+.preview-selector-title {
+    margin-bottom: 10px;
+    font-size: 23px;
+    font-weight: 700;
+    color: #ffd400;
+    text-align: center;
+}
+
+.preview-selector-options {
+    display: grid;
+    gap: 4px;
+    max-height: 520px;
+    overflow-y: auto;
+}
+
+.preview-selector-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 8px;
+    border-radius: 6px;
+    font-size: 19px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.preview-selector-option:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.preview-selector-option input {
+    width: 18px;
+    height: 18px;
+    accent-color: #00c853;
+}
+
+.preview-selector-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.preview-selector-actions button {
+    flex: 1;
+    padding: 7px;
+    border: 0;
+    border-radius: 6px;
+    background: #0a63d8;
+    color: #fff;
+    font: 700 17px "Rajdhani",sans-serif;
+    cursor: pointer;
+}
+
+.preview-selector-actions button:last-child {
+    background: #a51d32;
+}
+
+.preview-color-help {
+    margin-top: 8px;
+    color: #a9c8ff;
+    font-size: 15px;
+    text-align: center;
+}
+
+#slide-2 {
+    align-items: center;
+    justify-content: center;
+}
+
+#slide-2 .slide-1-container {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    padding: 12px 26px 18px;
+    gap: 6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    transform: translateY(-8px);
+}
+
+#slide-2 .comparison-team-header {
+    width: 100%;
+    height: 144px;
+    min-height: 144px;
+    display: grid;
+    grid-template-columns: 30% 40% 30%;
+    align-items: center;
+    position: relative;
+    overflow: visible;
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+#slide-2 .comparison-team-header::before {
+    content: "";
+    position: absolute;
+    left: 28%;
+    right: 28%;
+    top: 7px;
+    bottom: 7px;
+    z-index: 0;
+    background: linear-gradient(180deg,#ffffff 0%,#f5f5f5 48%,#e7e7e7 100%);
+    border: 2px solid rgba(150,150,150,0.45);
+    border-radius: 8px;
+    box-shadow: inset 0 2px 4px rgba(255,255,255,.95),inset 0 -3px 5px rgba(0,0,0,.15),0 4px 8px rgba(0,0,0,.20);
+}
+
+#slide-2 .comparison-team-left,
+#slide-2 .comparison-team-right {
+    position: relative;
+    z-index: 2;
+    height: 110px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    color: white;
+    font-family: "Rajdhani",sans-serif;
+    font-size: 68px;
+    font-weight: 900;
+    text-transform: uppercase;
+    text-shadow: 3px 3px 5px rgba(0,0,0,.65);
+    box-shadow: inset 0 5px 10px rgba(255,255,255,.22),inset 0 -7px 12px rgba(0,0,0,.30),0 5px 9px rgba(0,0,0,.30);
+}
+
+#slide-2 .comparison-team-left {
+    grid-column: 1;
+    justify-content: flex-start;
+    gap: 18px;
+    padding: 0 45px 0 28px;
+    background: linear-gradient(180deg,#249522 0%,#0c7515 100%);
+    clip-path: polygon(0 0,88% 0,100% 100%,0 100%);
+    border-radius: 10px 0 0 10px;
+}
+
+#slide-2 .comparison-team-right {
+    grid-column: 3;
+    justify-content: flex-end;
+    gap: 18px;
+    padding: 0 28px 0 45px;
+    background: linear-gradient(180deg,#e12720 0%,#b90b12 100%);
+    clip-path: polygon(12% 0,100% 0,100% 100%,0 100%);
+    border-radius: 0 10px 10px 0;
+}
+
+#slide-2 .comparison-team-logo {
+    width: 110px;
+    height: 110px;
+    flex: 0 0 110px;
+    border-radius: 50%;
+    background-color: white;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    box-shadow: 0 3px 7px rgba(0,0,0,.35);
+}
+
+#slide-2 .comparison-team-name-left,
+#slide-2 .comparison-team-name-right {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#slide-2 .comparison-stat-row {
+    width: 100%;
+    height: 82px;
+    min-height: 82px;
+    display: grid;
+    grid-template-columns: 29% 42% 29%;
+    align-items: center;
+    position: relative;
+    overflow: visible;
+    opacity: 1;
+    margin: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+#slide-2 .comparison-stat-label {
+    grid-column: 2;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    box-sizing: border-box;
+    background: linear-gradient(180deg,#ffffff 0%,#f7f7f7 45%,#e6e6e6 100%);
+    border-top: 2px solid rgba(145,145,145,.40);
+    border-bottom: 2px solid rgba(145,145,145,.40);
+    color: #111;
+    font-family: "Rajdhani",sans-serif;
+    font-size: 61px;
+    font-weight: 900;
+    text-transform: none;
+    text-shadow: 0 2px 2px rgba(255,255,255,.95);
+    box-shadow: inset 0 3px 5px rgba(255,255,255,.95),inset 0 -4px 6px rgba(0,0,0,.10);
+}
+
+#slide-2 .comparison-stat-left,
+#slide-2 .comparison-stat-right {
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+    box-sizing: border-box;
+    color: white;
+    font-family: "Rajdhani",sans-serif;
+    font-size: 68px;
+    font-weight: 700;
+    line-height: 1;
+    text-shadow: 2px 3px 4px rgba(0,0,0,.55);
+    box-shadow: inset 0 5px 9px rgba(255,255,255,.20),inset 0 -6px 10px rgba(0,0,0,.25),0 4px 7px rgba(0,0,0,.24);
+}
+
+#slide-2 .comparison-stat-left {
+    grid-column: 1;
+    background: linear-gradient(180deg,#256bd2 0%,#12499c 100%);
+    clip-path: polygon(0 0,90% 0,100% 100%,0 100%);
+    border-radius: 9px 0 0 9px;
+}
+
+#slide-2 .comparison-stat-right {
+    grid-column: 3;
+    background: linear-gradient(180deg,#ed3248 0%,#c5102d 100%);
+    clip-path: polygon(10% 0,100% 0,100% 100%,0 100%);
+    border-radius: 0 9px 9px 0;
+}
+
+#slide-2 .comparison-stat-row.comparison-nrr-row .comparison-stat-left,
+#slide-2 .comparison-stat-row.comparison-nrr-row .comparison-stat-right {
+    background: linear-gradient(180deg,#2e9e27 0%,#147a16 100%);
+}
+
+#slide-2 .comparison-stat-row::before,
+#slide-2 .comparison-team-header::before {
+    pointer-events: none;
+}
+
+#slide-1.logical-slide-1 .preview-slide-1-left-flag {
+    top: 35%;
+    left: 12%;
+    width: 400px;
+    height: 400px;
+    border: 5px solid white;
+    border-radius: 50%;
+}
+
+#slide-1.logical-slide-1 .preview-slide-1-right-flag {
+    top: 35%;
+    right: 12%;
+    width: 400px;
+    height: 400px;
+    border: 5px solid white;
+    border-radius: 50%;
+}
+
+#slide-1.logical-slide-1 .preview-slide-1-left-box {
+    left: 20px;
+    right: auto;
+    bottom: 20px;
+    width: 44%;
+    height: 130px;
+    font-size: 80px;
+    background-color: var(--color6);
+    border: 4px solid white;
+    border-radius: 30px;
+}
+
+#slide-1.logical-slide-1 .preview-slide-1-right-box {
+    right: 20px;
+    left: auto;
+    bottom: 20px;
+    width: 44%;
+    height: 130px;
+    font-size: 80px;
+    background-color: var(--color7);
+    border: 4px solid white;
+    border-radius: 30px;
+}
+
+#slide-1.logical-slide-2 .preview-slide-2-left-flag {
+    top: 27%;
+    left: 14%;
+    width: 300px;
+    height: 300px;
+    border: 5px solid white;
+    border-radius: 50%;
+}
+
+#slide-1.logical-slide-2 .preview-slide-2-right-flag {
+    top: 27%;
+    right: 14%;
+    width: 300px;
+    height: 300px;
+    border: 5px solid white;
+    border-radius: 50%;
+}
+
+#slide-1.logical-slide-2 .preview-slide-2-left-box {
+    left: 20px;
+    right: auto;
+    bottom: 155px;
+    width: 44%;
+    height: 130px;
+    font-size: 80px;
+    background-color: var(--color6);
+    border: 4px solid white;
+    border-radius: 30px;
+}
+
+#slide-1.logical-slide-2 .preview-slide-2-right-box {
+    right: 20px;
+    left: auto;
+    bottom: 155px;
+    width: 44%;
+    height: 130px;
+    font-size: 80px;
+    background-color: var(--color7);
+    border: 4px solid white;
+    border-radius: 30px;
+}
+
+#slide-1.logical-slide-2 .preview-slide-2-left-form-box {
+    position: absolute;
+    left: 20px;
+    right: auto;
+    bottom: 20px;
+    width: 44%;
+    height: 115px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-sizing: border-box;
+    z-index: 12;
+    overflow: hidden;
+    background-color: var(--color6);
+    border: 4px solid white;
+    border-radius: 30px;
+}
+
+#slide-1.logical-slide-2 .preview-slide-2-right-form-box {
+    position: absolute;
+    right: 20px;
+    left: auto;
+    bottom: 20px;
+    width: 44%;
+    height: 115px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-sizing: border-box;
+    z-index: 12;
+    overflow: hidden;
+    background-color: var(--color7);
+    border: 4px solid white;
+    border-radius: 30px;
+}
+
+#slide-1.logical-slide-2 .preview-slide-2-left-result {
+    width: 90px;
+    height: 90px;
+    margin: 4px;
+    flex: 0 0 90px;
+    font-size: 55px;
+}
+
+#slide-1.logical-slide-2 .preview-slide-2-right-result {
+    width: 90px;
+    height: 90px;
+    margin: 4px;
+    flex: 0 0 90px;
+    font-size: 55px;
+}
+
+#slide-1.logical-slide-3 .preview-slide-3-left-value {
+    font-size: 70px;
+}
+
+#slide-1.logical-slide-3 .preview-slide-3-right-value {
+    font-size: 70px;
+}
+
+#slide-2.logical-slide-4 .preview-slide-4-left-team-box,
+#slide-2.logical-slide-4 .preview-slide-4-right-team-box {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    color: white;
+    font-family: "Rajdhani",sans-serif;
+    font-weight: 900;
+}
+
+#slide-1.logical-slide-3 .preview-slide-3-left-flag {
+    display: flex;
+    top: 35%;
+    left: 12%;
+    right: auto;
+    width: 400px;
+    height: 400px;
+    border: 5px solid white;
+    border-radius: 50%;
+}
+
+#slide-1.logical-slide-3 .preview-slide-3-right-flag {
+    display: flex;
+    top: 35%;
+    right: 12%;
+    left: auto;
+    width: 400px;
+    height: 400px;
+    border: 5px solid white;
+    border-radius: 50%;
+}
+
+#slide-1.logical-slide-3 .preview-slide-3-left-box {
+    left: 20px;
+    right: auto;
+    bottom: 20px;
+    width: 44%;
+    height: 130px;
+    padding: 0 20px;
+    box-sizing: border-box;
+    justify-content: center;
+    font-size: 70px;
+    background-color: var(--color6);
+    border: 4px solid white;
+    border-radius: 30px;
+}
+
+#slide-1.logical-slide-3 .preview-slide-3-right-box {
+    right: 20px;
+    left: auto;
+    bottom: 20px;
+    width: 44%;
+    height: 130px;
+    padding: 0 20px;
+    box-sizing: border-box;
+    justify-content: center;
+    font-size: 70px;
+    background-color: var(--color7);
+    border: 4px solid white;
+    border-radius: 30px;
+}
+
+#slide-1.logical-slide-3 .preview-slide-3-left-value,
+#slide-1.logical-slide-3 .preview-slide-3-right-value {
+    width: 100%;
+    text-align: center;
+    font-size: 70px;
+    font-weight: 900;
+}
+
+#slide-2.logical-slide-4 {
+    top: 120px;
+    height: calc(100% - 120px);
+    overflow: hidden;
+}
+
+#slide-2.logical-slide-4 .preview-slide-4-container {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+}
+
+#slide-2.logical-slide-4 .preview-slide-4-team-header {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 30% 40% 30%;
+    align-items: center;
+    position: relative;
+    margin: 0;
+}
+
+#slide-2.logical-slide-4 .preview-slide-4-team-header::before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    left: 27%;
+    right: 27%;
+    background: linear-gradient( 180deg,#ffffff 0%,#f8f8f8 45%,#e7e7e7 100% );
+    border: 2px solid #c8c8c8;
+    border-radius: 10px;
+    box-shadow: inset 0 3px 5px rgba(255,255,255,.95),inset 0 -4px 6px rgba(0,0,0,.12),0 4px 7px rgba(0,0,0,.22);
+}
+
+#slide-2.logical-slide-4 .preview-slide-4-left-team-box {
+    grid-column: 1;
+    z-index: 2;
+    height: 112px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 18px;
+    box-sizing: border-box;
+    background: linear-gradient(180deg,#36a62f 0%,#087717 100%);
+    clip-path: polygon(0 0,88% 0,100% 100%,0 100%);
+    border-radius: 12px 0 0 12px;
+    color: white;
+    font-family: "Rajdhani",sans-serif;
+    font-size: 68px;
+    font-weight: 900;
+    text-shadow: 3px 3px 5px rgba(0,0,0,.55);
+    box-shadow: inset 0 6px 10px rgba(255,255,255,.22),inset 0 -8px 12px rgba(0,0,0,.30);
+}
+
+#slide-2.logical-slide-4 .preview-slide-4-right-team-box {
+    grid-column: 3;
+    z-index: 2;
+    height: 112px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 18px;
+    box-sizing: border-box;
+    background: linear-gradient(180deg,#ea2d23 0%,#b60d12 100%);
+    clip-path: polygon(12% 0,100% 0,100% 100%,0 100%);
+    border-radius: 0 12px 12px 0;
+    color: white;
+    font-family: "Rajdhani",sans-serif;
+    font-size: 68px;
+    font-weight: 900;
+    text-shadow: 3px 3px 5px rgba(0,0,0,.55);
+    box-shadow: inset 0 6px 10px rgba(255,255,255,.22),inset 0 -8px 12px rgba(0,0,0,.30);
+}
+
+#slide-2.logical-slide-4 .preview-slide-4-left-flag,
+#slide-2.logical-slide-4 .preview-slide-4-right-flag {
+    flex: 0 0 92px;
+    margin: 0;
+    border: 0;
+    border-radius: 50%;
+    background-color: white;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#slide-2.logical-slide-4 .preview-slide-4-left-team-name,
+#slide-2.logical-slide-4 .preview-slide-4-right-team-name {
+    font-weight: 900;
+    line-height: 1;
+}
+
+#slide-2.logical-slide-4 .preview-slide-4-stat-row {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 29% 42% 29%;
+    align-items: center;
+    margin: 0;
+    position: relative;
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    overflow: visible;
+    opacity: 1;
+}
+
+#slide-2.logical-slide-4 .preview-slide-4-stat-label {
+    grid-column: 2;
+    height: 106px;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    background: linear-gradient( 180deg,#ffffff 0%,#fafafa 45%,#e8e8e8 100% );
+    border-top: 2px solid #cacaca;
+    border-bottom: 2px solid #cacaca;
+    color: #111;
+    font-family: "Rajdhani",sans-serif;
+    font-weight: 900;
+    line-height: 1;
+    text-shadow: none;
+    box-shadow: inset 0 3px 5px rgba(255,255,255,.95),inset 0 -4px 6px rgba(0,0,0,.10);
+}
+
+#slide-2.logical-slide-4 .preview-slide-4-stat-left {
+    grid-column: 1;
+    height: 106px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    background: linear-gradient(180deg,#3177d8 0%,#124894 100%);
+    clip-path: polygon(0 0,90% 0,100% 100%,0 100%);
+    border-radius: 10px 0 0 10px;
+    color: white;
+    font-family: "Rajdhani",sans-serif;
+    font-size: 66px;
+    font-weight: 700;
+    line-height: 1;
+    text-shadow: 2px 3px 4px rgba(0,0,0,.50);
+    box-shadow: inset 0 5px 9px rgba(255,255,255,.20),inset 0 -6px 10px rgba(0,0,0,.24);
+}
+
+#slide-2.logical-slide-4 .preview-slide-4-stat-right {
+    grid-column: 3;
+    height: 106px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    background: linear-gradient(180deg,#ef4052 0%,#c6122c 100%);
+    clip-path: polygon(10% 0,100% 0,100% 100%,0 100%);
+    border-radius: 0 10px 10px 0;
+    color: white;
+    font-family: "Rajdhani",sans-serif;
+    font-size: 66px;
+    font-weight: 700;
+    line-height: 1;
+    text-shadow: 2px 3px 4px rgba(0,0,0,.50);
+    box-shadow: inset 0 5px 9px rgba(255,255,255,.20),inset 0 -6px 10px rgba(0,0,0,.24);
+}
+
+#slide-2.logical-slide-4 .preview-slide-4-nrr-row .preview-slide-4-stat-left,
+#slide-2.logical-slide-4 .preview-slide-4-nrr-row .preview-slide-4-stat-right {
+    background: linear-gradient(180deg,#36a62f 0%,#087717 100%);
+}
+
+#slide-3.logical-slide-6 {
+    top: 120px;
+    height: calc(100% - 120px);
+    padding: 0;
+    overflow: hidden;
+    border-radius: 0;
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-points-container {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    overflow: hidden;
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-table-header,
+#slide-3.logical-slide-6 .preview-slide-6-table-row {
+    width: 100%;
+    display: grid;
+    align-items: stretch;
+    box-sizing: border-box;
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-table-header {
+    color: white;
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-header-cell {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    font-family: "Rajdhani",sans-serif;
+    font-weight: 900;
+    line-height: 1;
+    text-transform: uppercase;
+    text-shadow: 2px 3px 4px rgba(0,0,0,.55);
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-header-points {
+    border-right: 0;
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-table-row {
+    height: var(--points-row-height,105px);
+    min-height: 0;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-row-1 {
+    background: linear-gradient(90deg,#d7141d 0%,#d7141d 100%);
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-row-2 {
+    background: linear-gradient(90deg,#092d64 0%,#07275a 100%);
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-row-3 {
+    background: linear-gradient(90deg,#ff4b0c 0%,#f34408 100%);
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-row-4 {
+    background: linear-gradient(90deg,#da1521 0%,#d3131e 100%);
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-row-5 {
+    background: linear-gradient(90deg,#145cb9 0%,#104fa5 100%);
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-row-6 {
+    background: linear-gradient(90deg,#7633a4 0%,#692b96 100%);
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-row-7 {
+    background: linear-gradient(90deg,#f6bd09 0%,#edb609 100%);
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-row-8 {
+    background: linear-gradient(90deg,#0958af 0%,#074f9f 100%);
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-row-9 {
+    background: linear-gradient(90deg,#d7141d 0%,#d7141d 100%);
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-row-10 {
+    background: linear-gradient(90deg,#092d64 0%,#07275a 100%);
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-cell {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    font-family: "Rajdhani",sans-serif;
+    font-weight: 900;
+    line-height: 1;
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-team-cell {
+    justify-content: flex-start;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-rank {
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 2;
+    color: white;
+    font-family: "Rajdhani",sans-serif;
+    font-weight: 900;
+    text-shadow: 2px 3px 4px rgba(0,0,0,.40);
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-team-logo {
+    flex: 0 0 auto;
+    object-fit: contain;
+    object-position: center;
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-team-name {
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-family: "Rajdhani",sans-serif;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-matches,
+#slide-3.logical-slide-6 .preview-slide-6-wins,
+#slide-3.logical-slide-6 .preview-slide-6-losses,
+#slide-3.logical-slide-6 .preview-slide-6-nrr,
+#slide-3.logical-slide-6 .preview-slide-6-points {
+    text-align: center;
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-points {
+    border-right: 0;
+}
+#slide-2.logical-slide-4,
+#slide-3.logical-slide-6 {
+    top: 120px;
+    height: calc(100vh - 120px);
+    max-height: calc(100vh - 120px);
+    overflow: hidden;
+}
+
+#slide-2.logical-slide-4 .preview-slide-4-container {
+    padding: 8px 20px 10px;
+    gap: 4px;
+    transform: none;
+}
+
+#slide-2.logical-slide-4 .preview-slide-4-team-header {
+    height: 108px;
+    min-height: 108px;
+}
+
+#slide-2.logical-slide-4 .preview-slide-4-team-header::before {
+    top: 6px;
+    bottom: 6px;
+}
+
+#slide-2.logical-slide-4 .preview-slide-4-left-team-box,
+#slide-2.logical-slide-4 .preview-slide-4-right-team-box {
+    height: 94px;
+    gap: 12px;
+    font-size: 52px;
+}
+
+#slide-2.logical-slide-4 .preview-slide-4-left-team-box {
+    padding: 0 38px 0 20px;
+}
+
+#slide-2.logical-slide-4 .preview-slide-4-right-team-box {
+    padding: 0 20px 0 38px;
+}
+
+#slide-2.logical-slide-4 .preview-slide-4-left-flag,
+#slide-2.logical-slide-4 .preview-slide-4-right-flag {
+    width: 76px;
+    height: 76px;
+    flex-basis: 76px;
+}
+
+#slide-2.logical-slide-4 .preview-slide-4-left-team-name,
+#slide-2.logical-slide-4 .preview-slide-4-right-team-name {
+    font-size: 52px;
+}
+
+#slide-2.logical-slide-4 .preview-slide-4-stat-row {
+    height: 99px;
+    min-height: 99px;
+}
+
+#slide-2.logical-slide-4 .preview-slide-4-stat-left,
+#slide-2.logical-slide-4 .preview-slide-4-stat-label,
+#slide-2.logical-slide-4 .preview-slide-4-stat-right {
+    height: 90px;
+}
+
+#slide-2.logical-slide-4 .preview-slide-4-stat-left,
+#slide-2.logical-slide-4 .preview-slide-4-stat-right {
+    font-size: 52px;
+}
+
+#slide-2.logical-slide-4 .preview-slide-4-stat-label {
+    font-size: 45px;
+}
+
+#slide-3.logical-slide-6 {
+    background: linear-gradient(180deg,rgba(3,10,27,.93),rgba(5,18,39,.96));
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-points-container {
+    background: rgba(3,11,28,.70);
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-table-header,
+#slide-3.logical-slide-6 .preview-slide-6-table-row {
+    grid-template-columns: minmax(500px,2.35fr) .72fr .72fr .72fr 1.08fr .90fr;
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-table-header {
+    height: 64px;
+    min-height: 64px;
+    background: linear-gradient(180deg,#173d78 0%,#0a2854 100%);
+    border-top: 1px solid rgba(255,255,255,.28);
+    border-bottom: 2px solid rgba(255,255,255,.75);
+    box-shadow: inset 0 3px 5px rgba(255,255,255,.14),0 4px 12px rgba(0,0,0,.38);
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-header-cell {
+    font-size: 38px;
+    border-right: 1px solid rgba(255,255,255,.24);
+    letter-spacing: .5px;
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-header-team {
+    justify-content: flex-start;
+    padding-left: 34px;
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-header-points {
+    color: #ffd83d;
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-table-row {
+    border-bottom: 1px solid rgba(255,255,255,.28);
+    box-shadow: inset 0 2px 0 rgba(255,255,255,.14),inset 0 -3px 7px rgba(0,0,0,.18);
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-table-row.preview-slide-6-row-1 {
+    background: linear-gradient(90deg,#0d47a1 0%,#1565c0 58%,#0b3578 100%);
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-table-row.preview-slide-6-row-2 {
+    background: linear-gradient(90deg,#7b1fa2 0%,#9c27b0 58%,#54136d 100%);
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-table-row.preview-slide-6-row-3 {
+    background: linear-gradient(90deg,#e65100 0%,#f57c00 58%,#9f3900 100%);
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-table-row.preview-slide-6-row-4 {
+    background: linear-gradient(90deg,#087f23 0%,#14a83c 58%,#05591a 100%);
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-table-row.preview-slide-6-row-5 {
+    background: linear-gradient(90deg,#c2185b 0%,#e91e63 58%,#8b103f 100%);
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-table-row.preview-slide-6-row-6 {
+    background: linear-gradient(90deg,#00695c 0%,#009688 58%,#00483f 100%);
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-table-row.preview-slide-6-row-7 {
+    background: linear-gradient(90deg,#b71c1c 0%,#e53935 58%,#7f1212 100%);
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-table-row.preview-slide-6-row-8 {
+    background: linear-gradient(90deg,#283593 0%,#3f51b5 58%,#1b2467 100%);
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-table-row.preview-slide-6-row-9 {
+    background: linear-gradient(90deg,#8d5a00 0%,#c88400 58%,#624000 100%);
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-table-row.preview-slide-6-row-10 {
+    background: linear-gradient(90deg,#006064 0%,#00838f 58%,#004447 100%);
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-cell {
+    border-right: 1px solid rgba(255,255,255,.18);
+    font-size: clamp(28px,calc(var(--points-row-height,76px) * .48),46px);
+    text-shadow: 2px 2px 3px rgba(0,0,0,.65);
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-rank {
+    width: 72px;
+    min-width: 72px;
+    padding-right: 10px;
+    background: linear-gradient(180deg,#f9c92b 0%,#d99b08 100%);
+    font-size: clamp(28px,calc(var(--points-row-height,76px) * .48),46px);
+    clip-path: polygon(0 0,78% 0,100% 100%,0 100%);
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-team-logo {
+    width: clamp(36px,calc(var(--points-row-height,76px) * .64),58px);
+    height: clamp(36px,calc(var(--points-row-height,76px) * .64),58px);
+    margin-left: 10px;
+    margin-right: 14px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.94);
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-team-name {
+    font-size: clamp(30px,calc(var(--points-row-height,76px) * .48),48px);
+    letter-spacing: .3px;
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-wins {
+    color: #7df58a;
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-losses {
+    color: #ff8d98;
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-nrr {
+    color: #7be7ff;
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-points {
+    color: #ffd83d;
+    font-weight: 900;
+    background: rgba(255,216,61,.06);
+}
+#slide-2.logical-slide-4 .preview-slide-4-container {
+    padding-top: 0;
+    padding-bottom: 0;
+    gap: 0;
+    font-family: "Rajdhani", sans-serif !important;
+    font-weight: 900 !important;
+}
+#slide-2.logical-slide-4 .preview-slide-4-team-header {
+    height: 119px;
+    min-height: 119px;
+}
+#slide-2.logical-slide-4 .preview-slide-4-left-team-box,
+#slide-2.logical-slide-4 .preview-slide-4-right-team-box {
+    height: 103px;
+    font-family: "Rajdhani", sans-serif !important;
+    font-weight: 900 !important;
+}
+#slide-2.logical-slide-4 .preview-slide-4-left-flag,
+#slide-2.logical-slide-4 .preview-slide-4-right-flag {
+    width: 84px;
+    height: 84px;
+    flex-basis: 84px;
+}
+#slide-2.logical-slide-4 .preview-slide-4-left-team-name,
+#slide-2.logical-slide-4 .preview-slide-4-right-team-name {
+    font-family: "Rajdhani", sans-serif !important;
+    font-weight: 900 !important;
+}
+#slide-2.logical-slide-4 .preview-slide-4-stat-row {
+    height: 109px;
+    min-height: 109px;
+}
+#slide-2.logical-slide-4 .preview-slide-4-stat-left,
+#slide-2.logical-slide-4 .preview-slide-4-stat-label,
+#slide-2.logical-slide-4 .preview-slide-4-stat-right {
+    height: 99px;
+    font-family: "Rajdhani", sans-serif !important;
+    font-weight: 900 !important;
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-table-header,
+#slide-3.logical-slide-6 .preview-slide-6-table-row,
+#slide-3.logical-slide-6 .preview-slide-6-header-cell,
+#slide-3.logical-slide-6 .preview-slide-6-cell,
+#slide-3.logical-slide-6 .preview-slide-6-rank,
+#slide-3.logical-slide-6 .preview-slide-6-team-name {
+    font-family: "Rajdhani", sans-serif;
+    font-weight: 600;
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-header-cell {
+    color: white;
+    font-size: 51px;
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-header-points {
+    color: white;
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-cell {
+    color: white;
+    font-size: clamp(38px, calc(var(--points-row-height, 76px) * 0.65), 62px);
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-rank {
+    color: white;
+    font-size: clamp(38px, calc(var(--points-row-height, 76px) * 0.65), 62px);
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-team-name {
+    color: white;
+    font-size: clamp(41px, calc(var(--points-row-height, 76px) * 0.65), 65px);
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-wins,
+#slide-3.logical-slide-6 .preview-slide-6-losses,
+#slide-3.logical-slide-6 .preview-slide-6-nrr,
+#slide-3.logical-slide-6 .preview-slide-6-matches {
+    color: white;
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-points {
+    color: #ffd83d;
+    font-weight: 600;
+}
+
+#slide-4.logical-slide-7 .head-to-head-match-row {
+    font-family: "Rajdhani", sans-serif;
+}
+
+#slide-4.logical-slide-7 .head-to-head-row-1 {
+    background: linear-gradient(135deg, #0d47a1, #1976d2);
+}
+
+#slide-4.logical-slide-7 .head-to-head-row-2 {
+    background: linear-gradient(135deg, #6a1b9a, #ab47bc);
+}
+
+#slide-4.logical-slide-7 .head-to-head-row-3 {
+    background: linear-gradient(135deg, #e65100, #fb8c00);
+}
+
+#slide-4.logical-slide-7 .head-to-head-row-4 {
+    background: linear-gradient(135deg, #087f23, #2eaf4a);
+}
+
+#slide-4.logical-slide-7 .head-to-head-row-5 {
+    background: linear-gradient(135deg, #b71c1c, #e53935);
+}
+
+#slide-4.logical-slide-7 .head-to-head-ball-count {
+    color: #ffe100;
+    font-size: 50px;
+    font-weight: 700;
+}/* Team Comparison Overall typography */
+
+#slide-2.logical-slide-4 .preview-slide-4-container,
+#slide-2.logical-slide-4 .preview-slide-4-left-team-box,
+#slide-2.logical-slide-4 .preview-slide-4-right-team-box,
+#slide-2.logical-slide-4 .preview-slide-4-left-team-name,
+#slide-2.logical-slide-4 .preview-slide-4-right-team-name,
+#slide-2.logical-slide-4 .preview-slide-4-stat-left,
+#slide-2.logical-slide-4 .preview-slide-4-stat-label,
+#slide-2.logical-slide-4 .preview-slide-4-stat-right {
+    font-family: "Rajdhani", sans-serif !important;
+    font-weight: 600 !important;
+}
+#slide-2.logical-slide-4 .preview-slide-4-left-team-box,
+#slide-2.logical-slide-4 .preview-slide-4-right-team-box,
+#slide-2.logical-slide-4 .preview-slide-4-left-team-name,
+#slide-2.logical-slide-4 .preview-slide-4-right-team-name,
+#slide-2.logical-slide-4 .preview-slide-4-stat-left,
+#slide-2.logical-slide-4 .preview-slide-4-stat-right,
+#team_compare_team1,
+#team_compare_team2 {
+    font-size: 73px !important;
+    font-weight: 600 !important;
+}
+#slide-2.logical-slide-4 .preview-slide-4-stat-label {
+    font-size: 63px !important;
+    font-weight: 600 !important;
+}/* Strong Rajdhani text for Team Comparison Overall */
+
+#slide-2.logical-slide-4 .preview-slide-4-left-team-box,
+#slide-2.logical-slide-4 .preview-slide-4-right-team-box,
+#slide-2.logical-slide-4 .preview-slide-4-left-team-name,
+#slide-2.logical-slide-4 .preview-slide-4-right-team-name,
+#slide-2.logical-slide-4 .preview-slide-4-stat-left,
+#slide-2.logical-slide-4 .preview-slide-4-stat-label,
+#slide-2.logical-slide-4 .preview-slide-4-stat-right,
+#team_compare_team1,
+#team_compare_team2 {
+    font-family: "Rajdhani", sans-serif !important;
+    font-weight: 600 !important;
+    -webkit-text-stroke: 1.15px rgba(0,0,0,0.95);
+    paint-order: stroke fill;
+}
+
+/* Point Table: Rajdhani 600 + text border */
+#slide-3.logical-slide-6 .preview-slide-6-table-header,
+#slide-3.logical-slide-6 .preview-slide-6-table-row,
+#slide-3.logical-slide-6 .preview-slide-6-header-cell,
+#slide-3.logical-slide-6 .preview-slide-6-cell,
+#slide-3.logical-slide-6 .preview-slide-6-rank,
+#slide-3.logical-slide-6 .preview-slide-6-team-name,
+#slide-3.logical-slide-6 .preview-slide-6-points {
+    font-family: "Rajdhani", sans-serif !important;
+    font-weight: 600 !important;
+    -webkit-text-stroke: 1.15px rgba(0,0,0,0.95);
+    paint-order: stroke fill;
+}
+
+/* Point Table font size +25% */
+#slide-3.logical-slide-6 .preview-slide-6-header-cell {
+    font-size: 64px !important;
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-cell,
+#slide-3.logical-slide-6 .preview-slide-6-rank {
+    font-size: clamp(48px, calc(var(--points-row-height, 76px) * 0.8125), 78px) !important;
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-team-name {
+    font-size: clamp(51px, calc(var(--points-row-height, 76px) * 0.8125), 81px) !important;
+}
+
+#slide-3.logical-slide-6 .preview-slide-6-points {
+    color: #ffd83d !important;
+}
+
+/* Redesigned Pitch Report */
+#slide-7 {
+    overflow: hidden;
+}
+
+#slide-7 .slide7_fullbox {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: stretch;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 18px 28px 24px;
+    border-radius: 15px;
+    font-family: "Rajdhani", sans-serif;
+    background-image: url("static/1.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#slide-7 .probability-box {
+    position: absolute;
+    top: 18px;
+    left: 28px;
+    width: calc(100% - 56px);
+    height: 185px;
+    margin: 0;
+    padding: 12px 16px;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 1fr 0.72fr 1fr;
+    align-items: center;
+    gap: 18px;
+    overflow: visible;
+    border: 2px solid rgba(255,255,255,0.72);
+    border-radius: 24px;
+    background: linear-gradient(180deg, rgba(10,28,52,0.96), rgba(4,13,28,0.98));
+    box-shadow: inset 0 2px 5px rgba(255,255,255,0.10), 0 12px 28px rgba(0,0,0,0.45);
+    z-index: 20;
+}
+
+#slide-7 .pitch-bowling-card {
+    position: relative;
+    height: 140px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 0 34px;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 2px solid rgba(255,255,255,0.55);
+    box-shadow: inset 0 4px 10px rgba(255,255,255,0.12), inset 0 -8px 16px rgba(0,0,0,0.28);
+}
+
+#slide-7 .pace-card {
+    background: linear-gradient(135deg, #007a9f 0%, #003f67 100%);
+}
+
+#slide-7 .spin-card {
+    background: linear-gradient(135deg, #6d2bb8 0%, #35115f 100%);
+}
+
+#slide-7 .team-namee {
+    margin: 0;
+    font-family: "Rajdhani", sans-serif;
+    font-size: 66px;
+    line-height: 1;
+    font-weight: 700;
+    color: white;
+    text-shadow: 3px 3px 5px rgba(0,0,0,0.65);
+}
+
+#slide-7 .team1-probability,
+#slide-7 .team2-probability {
+    margin: 0;
+    padding: 0;
+    font-family: "Rajdhani", sans-serif;
+    font-size: 72px;
+    line-height: 1;
+    font-weight: 700;
+    color: #ffd83d;
+    text-shadow: 3px 3px 5px rgba(0,0,0,0.65);
+}
+
+#slide-7 .pitch-vs-center {
+    height: 132px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    border-radius: 18px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.035));
+    border: 1px solid rgba(255,255,255,0.25);
+}
+
+#slide-7 .winning-prob-text {
+    margin: 0;
+    font-family: "Rajdhani", sans-serif;
+    font-size: 48px;
+    line-height: 1;
+    font-weight: 700;
+    color: white;
+    white-space: nowrap;
+    text-shadow: 2px 3px 5px rgba(0,0,0,0.70);
+}
+
+#slide-7 .divider {
+    position: relative;
+    left: auto;
+    transform: none;
+    margin: 0;
+    width: 82%;
+    height: 18px;
+    border: 2px solid rgba(255,255,255,0.75);
+    border-radius: 20px;
+    overflow: hidden;
+    background: linear-gradient(90deg, #00e5ff 50%, #ffb300 50%);
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.45);
+}
+
+#slide-7 .slide7_Image_Box {
+    position: absolute;
+    top: 218px;
+    left: 28px;
+    width: calc(100% - 56px);
+    height: 500px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+}
+
+#slide-7 .pitch-video-frame {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    border-radius: 28px;
+    border: 3px solid rgba(255,255,255,0.75);
+    background: transparent;
+    box-shadow: 0 14px 30px rgba(0,0,0,0.30);
+}
+
+#slide-7 .pitch_video {
+    position: relative;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 2;
+}
+
+#slide-7 .slide7_bottom_Box {
+    position: absolute;
+    left: 28px;
+    bottom: 22px;
+    width: calc(100% - 56px);
+    height: 208px;
+    box-sizing: border-box;
+    padding: 12px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    align-items: stretch;
+    background: transparent;
+}
+
+#slide-7 .pitch-stat-card {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    box-sizing: border-box;
+    padding: 16px 12px;
+    border-radius: 22px;
+    border: 2px solid rgba(255,255,255,0.72);
+    color: white;
+    box-shadow: inset 0 4px 10px rgba(255,255,255,0.14), inset 0 -7px 14px rgba(0,0,0,0.25), 0 8px 16px rgba(0,0,0,0.35);
+}
+
+#slide-7 .pitch-card-condition {
+    background: linear-gradient(135deg, #815b12, #4d3507);
+}
+
+#slide-7 .pitch-card-batting {
+    background: linear-gradient(135deg, #136c4a, #073a2a);
+}
+
+#slide-7 .pitch-card-pace {
+    background: linear-gradient(135deg, #006f92, #003a5b);
+}
+
+#slide-7 .pitch-card-spin {
+    background: linear-gradient(135deg, #6a2baa, #35105d);
+}
+
+#slide-7 .pitch-stat-label {
+    width: 100%;
+    font-family: "Rajdhani", sans-serif;
+    font-size: 38px;
+    line-height: 1;
+    font-weight: 600;
+    color: white;
+    text-align: center;
+    white-space: nowrap;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.65);
+}
+
+#slide-7 .pitch-stat-value {
+    width: 100%;
+    font-family: "Rajdhani", sans-serif;
+    font-size: 60px;
+    line-height: 1;
+    font-weight: 700;
+    color: #ffd83d;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-shadow: 2px 3px 5px rgba(0,0,0,0.70);
+}
+
+#slide-7 #pace_percent span,
+#slide-7 #spin_percent span {
+    color: #ffd83d !important;
+}
+
+</style>
+</head>
+<body>
+  <aside id="preview-selector-panel" class="preview-selector-panel">
+    <div class="preview-selector-title">SELECT PREVIEW ITEMS</div>
+    <div id="preview-selector-options" class="preview-selector-options"></div>
+    <div class="preview-selector-actions">
+      <button id="preview-select-all" type="button">SELECT ALL</button>
+      <button id="preview-clear-all" type="button">CLEAR ALL</button>
+    </div>
+    <div class="preview-color-help">Press P to close</div>
+  </aside>
+    <video autoplay muted loop>
+        <source src="static/particles.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+  <div id="left-click" class="left-click"></div>
+  <div id="right-click" class="right-click"></div>
+  <div id="header_text" class="header"></div>
+  <div id="slide-1" class="box" style="display:flex;justify-content:center">
+    <div id="circular_flag1" class="circular_flag team-flag-left"></div>
+    <div id="circular_flag2" class="circular_flag team-flag-right"></div>
+    <div id="team1" class="Name_Box"></div>
+    <div id="team2" class="Name_Box2"></div>
+  </div>
+
+  <div id="slide-2" class="box" style="display:none">
+    <div id="comparison-container" class="slide-1-container comparison-container">
+
+        <div id="comparison-team-header" class="comparison-team-header">
+            <div id="comparison-team-left" class="comparison-team-left">
+                <div id="team_compare_flag1" class="comparison-team-logo comparison-team-logo-left"></div>
+                <span id="team_compare_team1" class="comparison-team-name-left">TEAM 1</span>
+            </div>
+
+            <div id="comparison-team-right" class="comparison-team-right">
+                <span id="team_compare_team2" class="comparison-team-name-right">TEAM 2</span>
+                <div id="team_compare_flag2" class="comparison-team-logo comparison-team-logo-right"></div>
+            </div>
+        </div>
+
+        <div id="box-2" class="comparison-stat-row comparison-row-1"></div>
+        <div id="box-3" class="comparison-stat-row comparison-row-2"></div>
+        <div id="box-4" class="comparison-stat-row comparison-row-3"></div>
+        <div id="box-5" class="comparison-stat-row comparison-row-4"></div>
+        <div id="box-6" class="comparison-stat-row comparison-row-5"></div>
+
+    </div>
+</div>
+
+<div id="slide-3" class="box" style="display:none">
+    <div id="slide-1-container" class="slide-1-container">
+    </div>
+  </div>
+
+  <div id="slide-4" class="box" style="display:none">
+    <div id="slide-2-container" class="slide-1-container">
+    </div>
+  </div>
+
+  <div id="slide-5" class="box" style="display:none">
+    <div class="slide5_fullbox">
+      <div class="slide5_imagebox">
+          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 64 64"><defs><linearGradient id="b" x1="16.5" x2="21.5" y1="19.67" y2="28.33" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fbbf24"/><stop offset=".45" stop-color="#fbbf24"/><stop offset="1" stop-color="#f59e0b"/></linearGradient><linearGradient id="c" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#f3f7fe"/><stop offset=".45" stop-color="#f3f7fe"/><stop offset="1" stop-color="#deeafb"/></linearGradient><linearGradient id="a" x1="22.53" x2="25.47" y1="42.95" y2="48.05" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#4286ee"/><stop offset=".45" stop-color="#4286ee"/><stop offset="1" stop-color="#0950bc"/></linearGradient><linearGradient id="d" x1="29.53" x2="32.47" y1="42.95" y2="48.05" xlink:href="#a"/><linearGradient id="e" x1="36.53" x2="39.47" y1="42.95" y2="48.05" xlink:href="#a"/></defs><circle cx="19" cy="24" r="5" fill="url(#b)" stroke="#f8af18" stroke-miterlimit="10" stroke-width=".5"/><path fill="none" stroke="#fbbf24" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M19 15.67V12.5m0 23v-3.17m5.89-14.22l2.24-2.24M10.87 32.13l2.24-2.24m0-11.78l-2.24-2.24m16.26 16.26l-2.24-2.24M7.5 24h3.17m19.83 0h-3.17"><animateTransform attributeName="transform" dur="15s" repeatCount="indefinite" type="rotate" values="0 19 24; 360 19 24"/></path><path fill="url(#c)" stroke="#e6effc" stroke-miterlimit="10" stroke-width=".5" d="M46.5 31.5h-.32a10.49 10.49 0 00-19.11-8 7 7 0 00-10.57 6 7.21 7.21 0 00.1 1.14A7.5 7.5 0 0018 45.5a4.19 4.19 0 00.5 0v0h28a7 7 0 000-14z"/><path fill="none" stroke="url(#a)" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M24.39 43.03l-.78 4.94"><animateTransform attributeName="transform" dur="0.7s" repeatCount="indefinite" type="translate" values="1 -5; -2 10"/><animate attributeName="opacity" dur="0.7s" repeatCount="indefinite" values="0;1;1;0"/></path><path fill="none" stroke="url(#d)" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M31.39 43.03l-.78 4.94"><animateTransform attributeName="transform" begin="-0.4s" dur="0.7s" repeatCount="indefinite" type="translate" values="1 -5; -2 10"/><animate attributeName="opacity" begin="-0.4s" dur="0.7s" repeatCount="indefinite" values="0;1;1;0"/></path><path fill="none" stroke="url(#e)" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M38.39 43.03l-.78 4.94"><animateTransform attributeName="transform" begin="-0.2s" dur="0.7s" repeatCount="indefinite" type="translate" values="1 -5; -2 10"/><animate attributeName="opacity" begin="-0.2s" dur="0.7s" repeatCount="indefinite" values="0;1;1;0"/></path></svg>
+
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><defs><linearGradient id="a" x1="26.75" x2="37.25" y1="22.91" y2="41.09" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fbbf24"/><stop offset=".45" stop-color="#fbbf24"/><stop offset="1" stop-color="#fb3124"/></linearGradient></defs><circle cx="32" cy="32" r="10.5" fill="url(#a)" stroke="#fb3124" stroke-miterlimit="10" stroke-width=".5"/><path fill="none" stroke="#fb3124" stroke-linecap="round" stroke-miterlimit="10" stroke-width="3" d="M32 15.71V9.5m0 45v-6.21m11.52-27.81l4.39-4.39M16.09 47.91l4.39-4.39m0-23l-4.39-4.39m31.82 31.78l-4.39-4.39M15.71 32H9.5m45 0h-6.21"><animateTransform attributeName="transform" dur="15s" repeatCount="indefinite" type="rotate" values="0 32 32; 360 32 32"/></path></svg>
+
+          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 64 64"><defs><linearGradient id="b" x1="16.5" x2="21.5" y1="19.67" y2="28.33" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#fbbf24"/><stop offset=".45" stop-color="#fbbf24"/><stop offset="1" stop-color="#f59e0b"/></linearGradient><linearGradient id="c" x1="22.56" x2="39.2" y1="21.96" y2="50.8" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#f3f7fe"/><stop offset=".45" stop-color="#f3f7fe"/><stop offset="1" stop-color="#deeafb"/></linearGradient><linearGradient id="a" x1="17.94" x2="26.94" y1="55.73" y2="71.32" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#d4d7dd"/><stop offset=".45" stop-color="#d4d7dd"/><stop offset="1" stop-color="#bec1c6"/></linearGradient><linearGradient id="d" x1="28.81" x2="37.81" y1="49.45" y2="65.04" xlink:href="#a"/><linearGradient id="e" x1="37.06" x2="46.06" y1="44.68" y2="60.27" xlink:href="#a"/><linearGradient id="f" x1="17.94" x2="26.94" y1="49.73" y2="65.32" xlink:href="#a"/><linearGradient id="g" x1="28.81" x2="37.81" y1="43.45" y2="59.04" xlink:href="#a"/></defs><circle cx="19" cy="24" r="5" fill="url(#b)" stroke="#f8af18" stroke-miterlimit="10" stroke-width=".5"/><path fill="none" stroke="#fbbf24" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M19 15.67V12.5m0 23v-3.17m5.89-14.22l2.24-2.24M10.87 32.13l2.24-2.24m0-11.78l-2.24-2.24m16.26 16.26l-2.24-2.24M7.5 24h3.17m19.83 0h-3.17"><animateTransform attributeName="transform" dur="20s" repeatCount="indefinite" type="rotate" values="0 19 24; 360 19 24"/></path><path fill="url(#c)" stroke="#e6effc" stroke-miterlimit="10" stroke-width=".5" d="M46.5 31.5h-.32a10.49 10.49 0 00-19.11-8 7 7 0 00-10.57 6 7.21 7.21 0 00.1 1.14A7.5 7.5 0 0018 45.5a4.19 4.19 0 00.5 0v0h28a7 7 0 000-14z"/><g><path fill="none" stroke="url(#c)" stroke-linecap="round" stroke-miterlimit="10" stroke-width="3" d="M17 58h4.5"/><path fill="none" stroke="url(#a)" stroke-dasharray="7 7" stroke-linecap="round" stroke-miterlimit="10" stroke-width="3" d="M28.5 58H39"/><path fill="none" stroke="url(#d)" stroke-linecap="round" stroke-miterlimit="10" stroke-width="3" d="M42.5 58H47"/><animateTransform attributeName="transform" begin="0s" dur="5s" repeatCount="indefinite" type="translate" values="-3 0; 3 0; -3 0"/></g><g><path fill="none" stroke="url(#e)" stroke-linecap="round" stroke-miterlimit="10" stroke-width="3" d="M17 52h4.5"/><path fill="none" stroke="url(#f)" stroke-dasharray="7 7" stroke-linecap="round" stroke-miterlimit="10" stroke-width="3" d="M28.5 52H39"/><path fill="none" stroke="url(#g)" stroke-linecap="round" stroke-miterlimit="10" stroke-width="3" d="M42.5 52H47"/><animateTransform attributeName="transform" begin="-4s" dur="5s" repeatCount="indefinite" type="translate" values="-3 0; 3 0; -3 0"/></g></svg>
+      </div>
+      <div class="slide5_namebox">
+          <div class="slide5_name1">RAIN<br><span id="rain_value" class="weather-data"></span></div>
+          <div class="slide5_name2">TEMP<br><span id="temp_value" class="weather-data"></span></div>
+          <div class="slide5_name3">HUMIDITY<br><span id="humidity_value" class="weather-data"></span></div>
+      </div>
+      <div id="ground" class="slide5_upper_box"></div>
+    </div>
+  </div>
+
+  <div id="slide-6" class="box" style="display:none">
+    <div class="slide6_fullbox">
+        <div class="rectangle">
+            <div class="slide-6-circle">
+                <div id="inner_circle" class="inner-circle">Total Matches</div>
+                <div class="left" id="left"></div>
+                <div class="right" id="right"></div>
+            </div>
+            <div class="slide6-box" id="slide6_box1"></div>
+            <div class="slide6-box" id="slide6_box2"></div>
+        </div>
+        <div class="right-boxes">
+            <div class="right-box1">
+                <div class="right-box1-2" id="slide6_average_1st"></div>
+                <div class="right-box1-2" id="slide6_average_2nd"></div>
+            </div>
+            <div class="right-box" id="slide6_match_record_1"></div>
+            <div class="right-box2" id="slide6_match_record_2"></div>
+            <div class="right-box" id="slide6_match_record_3"></div>
+            <div class="right-box2" id="slide6_match_record_4"></div>
+        </div>
+    </div>
+  </div>
+
+  <div id="slide-7" class="box" style="display:none">
+    <div class="slide7_fullbox">
+      <div class="probability-box">
+          <div class="team pitch-bowling-card pace-card">
+              <div class="team-namee">PACE</div>
+              <div id="team1_probability" class="team1-probability">86 Wkt</div>
+          </div>
+
+          <div class="pitch-vs-center">
+              <span class="winning-prob-text">PACE vs SPIN</span>
+              <div class="divider" id="divider"></div>
+          </div>
+
+          <div class="team pitch-bowling-card spin-card">
+              <div class="team-namee">SPIN</div>
+              <div id="team2_probability" class="team2-probability">20 Wkt</div>
+          </div>
+      </div>
+
+      <div class="slide7_Image_Box">
+          <div class="pitch-video-frame">
+              <video class="pitch_video" autoplay loop muted playsinline>
+                  <source src="static/3D_Pitch.webm" type="video/webm">
+              </video>
+          </div>
+      </div>
+
+      <div class="slide7_bottom_Box">
+          <div class="pitch-stat-card pitch-card-condition">
+              <div class="pitch-stat-label">PITCH CONDITION</div>
+              <div class="pitch-stat-value">DRY</div>
+          </div>
+
+          <div class="pitch-stat-card pitch-card-batting">
+              <div class="pitch-stat-label">BATTING CONDITION</div>
+              <div class="pitch-stat-value">AVERAGE</div>
+          </div>
+
+          <div class="pitch-stat-card pitch-card-pace">
+              <div class="pitch-stat-label">PACE BOWLING</div>
+              <div id="pace_percent" class="pitch-stat-value">EASY</div>
+          </div>
+
+          <div class="pitch-stat-card pitch-card-spin">
+              <div class="pitch-stat-label">SPIN BOWLING</div>
+              <div id="spin_percent" class="pitch-stat-value">HARD</div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="slide-8" class="box" style="display:none">
+    <div class="slide8_fullbox">
+        <div class="umpire-row">
+            <div class="umpire-label">UMPIRE 1 :</div>
+            <div id="umpire1" class="umpire-value">N/A</div>
+        </div>
+
+        <div class="umpire-row">
+            <div class="umpire-label">UMPIRE 2 :</div>
+            <div id="umpire2" class="umpire-value">N/A</div>
+        </div>
+
+        <div class="umpire-row">
+            <div class="umpire-label">UMPIRE 3 :</div>
+            <div id="umpire3" class="umpire-value">N/A</div>
+        </div>
+    </div>
+  </div>
+
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+<script>
+let liveData = null;
+let matchData = null;
+let firstPreviewSlideOpened = false;
+
+// ------------------------------------------------------------------
+// CRICSPECTER LOCAL SOCKET.IO CONNECTION
+// Same flow as the current CricSpecter backend:
+// connect -> authenticate -> join scoreboard room -> receive update_new.
+// Authentication is sent again after EVERY reconnect, so this preview also
+// recovers if the CricSpecter EXE/server itself is restarted.
+// ------------------------------------------------------------------
+const CRICSPECTER_SOCKET_URL = "http://127.0.0.1:2000";
+
+const CRICSPECTER_HTML_AUTH_KEYS = [
+    "7313-665D-8F23-7705",
+    "D271-846E-5BF4-C3C5",
+    "17F8-5B18-CCD3-452E",
+    "5765-C6C0-1DD4-AAE7"
+];
+
+function applyCricSpecterPayload(data) {
+    if (!data || typeof data !== "object") return;
+
+    // Keep this preview's existing data mapping exactly as it was.
+    liveData = data;
+    matchData = (
+        data.match_info &&
+        typeof data.match_info === "object" &&
+        !Array.isArray(data.match_info)
+    ) ? data.match_info : {};
+
+    if (!firstPreviewSlideOpened) {
+        firstPreviewSlideOpened = true;
+
+        Promise.resolve().then(async () => {
+            const firstSelectedSlide = usableSlideList()[0] || 1;
+            if (!firstSelectedSlide) return;
+
+            currentSlideIndex = firstSelectedSlide;
+            click_index = 1;
+            await updateSlide(firstSelectedSlide);
+
+            // Tell a parent scoreboard/iframe that the preview has rendered.
+            setTimeout(() => {
+                window.matchPreviewDataReady = true;
+                if (window.parent && window.parent !== window) {
+                    window.parent.postMessage(
+                        { type: "cricket-glow-preview-ready" },
+                        "*"
+                    );
+                }
+            }, 700);
+        });
+    }
+}
+
+const cricSpecterSocket = io(CRICSPECTER_SOCKET_URL, {
+    reconnection: true,
+    reconnectionAttempts: Infinity,
+    reconnectionDelay: 500,
+    reconnectionDelayMax: 3000,
+    timeout: 10000,
+    transports: ["websocket", "polling"]
+});
+
+// IMPORTANT: authenticate on every connection, including every reconnect.
+// This covers normal Socket.IO reconnects and a complete CricSpecter restart.
+cricSpecterSocket.on("connect", () => {
+    cricSpecterSocket.emit("authenticate", {
+        keys: CRICSPECTER_HTML_AUTH_KEYS
+    });
+});
+
+// CricSpecter broadcasts the complete preview/scoreboard payload on update_new.
+cricSpecterSocket.on("update_new", applyCricSpecterPayload);
+
+// Socket.IO itself keeps retrying forever. No UI error is shown in the graphic.
+
+const rightClickButton = document.getElementById('right-click');
+const leftClickButton = document.getElementById('left-click');
+const headerEl = document.getElementById('header_text');
+
+let currentSlideIndex = 1; // Logical preview slides are numbered 1 through 11.
+
+// SLIDES is the single source of truth for the preview area:
+// =========================================================
+// PREVIEW SLIDES
+// Change ONLY the "background" value below if you want to
+// manually use a different image for any individual slide.
+// =========================================================
+const SLIDES = [
+    {
+        n: 1,
+        div: 'slide-1',
+        background: 'static/Backgrounds/1.jpg',
+        name: 'Match Status'
+    },
+    {
+        n: 2,
+        div: 'slide-1',
+        background: 'static/Backgrounds/2.png',
+        name: 'Team Form'
+    },
+    {
+        n: 3,
+        div: 'slide-1',
+        background: 'static/Backgrounds/3.png',
+        name: 'Winning Percentage'
+    },
+    {
+        n: 4,
+        div: 'slide-2',
+        background: 'static/Backgrounds/4.png',
+        name: 'Team Comparison - Overall'
+    },
+    {
+        n: 6,
+        div: 'slide-3',
+        background: 'static/Backgrounds/6.png',
+        name: 'Points Table'
+    },
+    {
+        n: 7,
+        div: 'slide-4',
+        background: 'static/Backgrounds/7.png',
+        name: 'Head To Head'
+    },
+    {
+        n: 8,
+        div: 'slide-5',
+        background: 'static/Backgrounds/8.png',
+        name: 'Weather Report'
+    },
+    {
+        n: 9,
+        div: 'slide-6',
+        background: 'static/Backgrounds/9.png',
+        name: 'Venue Stats'
+    },
+    {
+        n: 10,
+        div: 'slide-7',
+        background: 'static/Backgrounds/10.png',
+        name: 'Pitch Report'
+    },
+    {
+        n: 11,
+        div: 'slide-8',
+        background: 'static/Backgrounds/11.png',
+        name: 'Match Umpires'
+    }
+];
+
+// Find a slide definition by its slide number.
+function slideById(number) {
+    return SLIDES.find(slide => slide.n === number);
+}
+
+let previousSlideDiv = 'slide-1'; // the box div that is currently visible
+
+const PREVIEW_SELECTION_KEY = 'cricketGlow.t20PreviewSelection.v3';
+let enabledPreviewSlides = new Set(SLIDES.map(slide => slide.n));
+try {
+    const saved = JSON.parse(localStorage.getItem(PREVIEW_SELECTION_KEY) || 'null');
+    if (Array.isArray(saved)) {
+        enabledPreviewSlides = new Set(saved.filter(index => SLIDES.some(slide => slide.n === index)));
+    }
+} catch (error) {
+    console.warn('Preview selection could not be restored.', error);
+}
+function savePreviewSelection() {
+    const selected = Array.from(enabledPreviewSlides).sort((a, b) => a - b);
+    localStorage.setItem(PREVIEW_SELECTION_KEY, JSON.stringify(selected));
+}
+
+function enabledSlideList() {
+    return Array.from(enabledPreviewSlides).sort((a, b) => a - b);
+}
+
+function hasArray(value) {
+    return Array.isArray(value) && value.length > 0;
+}
+
+function hasObject(value) {
+    return value !== null &&
+        typeof value === 'object' &&
+        !Array.isArray(value) &&
+        Object.keys(value).length > 0;
+}
+function getTeamFormResults(team){
+    if(hasArray(team?.match_results))return team.match_results;
+    const form=matchData?.team_form||liveData?.team_form||{};
+    const candidates=[team?.short_name,team?.team_name,team?.full_name]
+      .filter(Boolean)
+      .map(name=>String(name).trim());
+    const directKey=candidates.find(name=>hasArray(form[name]));
+    if(directKey)return form[directKey];
+    const formKey=Object.keys(form).find(key=>candidates.some(name=>key.toLowerCase()===name.toLowerCase()));
+    return formKey&&hasArray(form[formKey])?form[formKey]:[];
+}
+
+function slideHasJSONData(index) {
+    if (!liveData || !matchData) return false;
+
+    const info = matchData;
+    switch (index) {
+        case 1:
+            return hasArray(liveData.static_data);
+        case 2:
+            return hasArray(liveData.static_data) &&
+                liveData.static_data.slice(0, 2).every(team => hasArray(getTeamFormResults(team)));
+        case 3:
+            return hasObject(liveData.winning_probability) &&
+                hasObject(liveData.winning_probability.team1) &&
+                hasObject(liveData.winning_probability.team2);
+        case 4:
+            return hasArray(info.team_comparison_overall);
+        case 6:
+            return hasObject(info.Points_Table) &&
+                hasArray(info.Points_Table.headers) &&
+                hasArray(info.Points_Table.data);
+        case 7:
+            return hasArray(info.Head_To_Head);
+        case 8:
+            return hasObject(info.weather_report);
+        case 9:
+            return hasObject(info.vanue_stats);
+        case 10:
+            return hasObject(info.pace_vs_spin) &&
+                (hasObject(info.pace_vs_spin.pace) || info.pace_vs_spin.pace_wkt !== undefined);
+        case 11:
+            return hasObject(info.Match_Umpire);
+        default:
+            return false;
+    }
+}
+function usableSlideList() {
+    return enabledSlideList().filter(slideHasJSONData);
+}
+function buildPreviewSelectorPanel() {
+  const options = document.getElementById('preview-selector-options');
+  options.innerHTML = '';
+  SLIDES.forEach((slide, position) => {
+    const label = document.createElement('label');
+    label.className = 'preview-selector-option';
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.checked = enabledPreviewSlides.has(slide.n);
+    checkbox.addEventListener('change', () => {
+      if (checkbox.checked) enabledPreviewSlides.add(slide.n);
+      else enabledPreviewSlides.delete(slide.n);
+      savePreviewSelection();
+    });
+    label.append(checkbox, document.createTextNode((position + 1) + '. ' + slide.name));
+    options.appendChild(label);
+  });
+}
+document.getElementById('preview-select-all').addEventListener('click', () => {
+  enabledPreviewSlides = new Set(SLIDES.map(slide => slide.n));
+  savePreviewSelection();
+  buildPreviewSelectorPanel();
+});
+document.getElementById('preview-clear-all').addEventListener('click', () => {
+  enabledPreviewSlides.clear();
+  savePreviewSelection();
+  buildPreviewSelectorPanel();
+});
+buildPreviewSelectorPanel();
+
+document.addEventListener('keydown',event=>{
+  if(event.repeat||event.ctrlKey||event.altKey||event.metaKey)return;
+  const target=event.target;
+  if(target&&/INPUT|TEXTAREA|SELECT/.test(target.tagName))return;
+  const key=event.key?.toLowerCase();
+  if(key==='p')document.getElementById('preview-selector-panel').classList.toggle('open');
+});
+
+// Renders the content for the given slide number.
+function handleSlide(index) {
+    if (!liveData || !matchData || !slideHasJSONData(index)) return 0;
+
+    switch (index) {
+        case 1:
+            renderIntroSlide('match-status', liveData.static_data);
+            break;
+        case 2:
+            renderIntroSlide('team-form', liveData.static_data);
+            break;
+        case 3:
+            renderIntroSlide('winning-percentage', liveData.static_data, liveData.winning_probability);
+            break;
+        case 4:
+            renderTeamComparison(
+                matchData.team_comparison_overall,
+                liveData.static_data,
+                'Team Comparison (OVERALL)'
+            );
+            break;
+        case 6:
+            renderPointsTable(matchData.Points_Table);
+            break;
+        case 7:
+            renderHeadToHead(matchData.Head_To_Head);
+            break;
+        case 8:
+            renderWeather(matchData.weather_report);
+            break;
+        case 9:
+            renderVenueStats(matchData.vanue_stats);
+            break;
+        case 10:
+            renderPitchReport(matchData.pace_vs_spin);
+            break;
+        case 11:
+            renderUmpires(matchData.Match_Umpire);
+            break;
+        default:
+            return 0;
+    }
+
+    return 1;
+}
+
+function setSlideBackground(index) {
+    const slide = slideById(index);
+    if (!slide) return;
+
+    const slideBox = document.getElementById(slide.div);
+    if (!slideBox) return;
+
+    // Only the currently selected logical slide gets its own background.
+    slideBox.style.backgroundImage = `url("${slide.background}")`;
+    slideBox.style.backgroundSize = 'cover';
+    slideBox.style.backgroundPosition = 'center';
+    slideBox.style.backgroundRepeat = 'no-repeat';
+}
+
+function removePreviewSlideClasses(element) {
+    if (!element) return;
+
+    [...element.classList].forEach(className => {
+        if (
+            className.startsWith('logical-slide-') ||
+            className.startsWith('preview-slide-') ||
+            className.startsWith('preview-header-slide-')
+        ) {
+            element.classList.remove(className);
+        }
+    });
+}
+
+function applyLogicalSlideClasses(index) {
+    const slide = slideById(index);
+    if (!slide) return;
+
+    // Remove old logical-slide classes from every physical slide box.
+    document.querySelectorAll('.box').forEach(box => {
+        [...box.classList].forEach(className => {
+            if (className.startsWith('logical-slide-')) {
+                box.classList.remove(className);
+            }
+        });
+    });
+
+    // Header also gets its own per-logical-slide class.
+    [...headerEl.classList].forEach(className => {
+        if (className.startsWith('preview-header-slide-')) {
+            headerEl.classList.remove(className);
+        }
+    });
+    headerEl.classList.add(`preview-header-slide-${index}`);
+
+    const slideBox = document.getElementById(slide.div);
+    if (!slideBox) return;
+    slideBox.classList.add(`logical-slide-${index}`);
+
+    // Shared intro slide elements: logical slides 1, 2, 3.
+    if (index >= 1 && index <= 3) {
+        const leftFlag = document.getElementById('circular_flag1');
+        const rightFlag = document.getElementById('circular_flag2');
+        const leftBox = document.getElementById('team1');
+        const rightBox = document.getElementById('team2');
+
+        [leftFlag, rightFlag, leftBox, rightBox].forEach(removePreviewSlideClasses);
+
+        leftFlag?.classList.add(`preview-slide-${index}-left-flag`);
+        rightFlag?.classList.add(`preview-slide-${index}-right-flag`);
+        leftBox?.classList.add(`preview-slide-${index}-left-box`);
+        rightBox?.classList.add(`preview-slide-${index}-right-box`);
+    }
+
+    // Team Comparison Overall uses logical slide 4.
+    if (index === 4) {
+        const container = document.getElementById('comparison-container');
+        const teamHeader = document.getElementById('comparison-team-header');
+        const leftTeamBox = document.getElementById('comparison-team-left');
+        const rightTeamBox = document.getElementById('comparison-team-right');
+        const leftFlag = document.getElementById('team_compare_flag1');
+        const rightFlag = document.getElementById('team_compare_flag2');
+        const leftName = document.getElementById('team_compare_team1');
+        const rightName = document.getElementById('team_compare_team2');
+
+        [
+            container,
+            teamHeader,
+            leftTeamBox,
+            rightTeamBox,
+            leftFlag,
+            rightFlag,
+            leftName,
+            rightName
+        ].forEach(removePreviewSlideClasses);
+
+        container?.classList.add(`preview-slide-${index}-container`);
+        teamHeader?.classList.add(`preview-slide-${index}-team-header`);
+        leftTeamBox?.classList.add(`preview-slide-${index}-left-team-box`);
+        rightTeamBox?.classList.add(`preview-slide-${index}-right-team-box`);
+        leftFlag?.classList.add(`preview-slide-${index}-left-flag`);
+        rightFlag?.classList.add(`preview-slide-${index}-right-flag`);
+        leftName?.classList.add(`preview-slide-${index}-left-team-name`);
+        rightName?.classList.add(`preview-slide-${index}-right-team-name`);
+    }
+}
+
+// Switch the preview area to the given slide number.
+async function updateSlide(newIndex) {
+    const slide = slideById(newIndex);
+    if (!slide || !enabledPreviewSlides.has(newIndex)) return;
+    setSlideBackground(newIndex);
+    applyLogicalSlideClasses(newIndex);
+
+    const slideBox = document.getElementById(slide.div);
+    const previousBox = document.getElementById(previousSlideDiv);
+
+    // Only one slide box is visible at a time.
+    document.querySelectorAll('.box').forEach(box=>{
+        if (box !== slideBox) {
+            box.classList.remove('open');
+            box.style.display = 'none';
+        }
+    });
+    headerEl.style.display = 'flex';
+    previousBox.classList.remove('open');
+
+    setTimeout(() => {
+        if (previousSlideDiv !== slide.div) {
+            previousBox.style.display = 'none';
+            slideBox.style.display = 'flex';
+            previousSlideDiv = slide.div;
+            setTimeout(() => slideBox.classList.add('open'), 100);
+        } else {
+            slideBox.classList.add('open'); // Slide is already visible: just open it
+        }
+
+        // If the slide could not be rendered, jump to the nearest available slide.
+        if (handleSlide(newIndex) === 0) {
+            if (click_index === 1) {
+                const nextAvailable = usableSlideList().find(index => index > currentSlideIndex);
+                if (nextAvailable) currentSlideIndex = nextAvailable;
+            } else if (click_index === 0) {
+                const previousAvailable = usableSlideList().filter(index => index < currentSlideIndex);
+                if (previousAvailable.length) currentSlideIndex = previousAvailable[previousAvailable.length - 1];
+            }
+            if (currentSlideIndex !== newIndex) updateSlide(currentSlideIndex);
+        }
+    }, 500); // Wait for the slide animation before rendering content
+}
+
+let click_index = '';
+let isClickable = true; // Flag to prevent rapid clicks
+
+function nextSlide() {
+    if (!isClickable) return;
+    const nextIndex=usableSlideList().find(index=>index>currentSlideIndex);
+    if(!nextIndex)return;
+    isClickable = false; // Disable further clicks
+    currentSlideIndex=nextIndex;
+    updateSlide(currentSlideIndex);
+    click_index = 1;
+
+    setTimeout(() => {
+        isClickable = true; // Enable click after 1 sec
+    }, 1000);
+}
+
+function prevSlide() {
+    if (!isClickable) return; // Stop if button is disabled
+    const previousIndexes=usableSlideList().filter(index=>index<currentSlideIndex);
+    const previousIndex=previousIndexes.length?previousIndexes[previousIndexes.length-1]:null;
+    if (previousIndex) {
+        isClickable = false; // Disable further clicks
+        currentSlideIndex=previousIndex;
+        updateSlide(currentSlideIndex);
+        click_index = 0;
+
+        setTimeout(() => {
+            isClickable = true; // Enable click after 1 sec
+        }, 1000);
+    }
+
+}
+
+// Handle right click (next slide)
+rightClickButton.addEventListener('click', function () {
+  nextSlide();
+});
+
+// Handle left click (previous slide)
+leftClickButton.addEventListener('click', function () {
+  prevSlide();
+});
+
+// Keyboard navigation visits only selected slides that contain usable JSON.
+document.addEventListener('keydown', function (event) {
+    const target=event.target;
+    if(target&&/INPUT|TEXTAREA|SELECT|BUTTON/.test(target.tagName))return;
+    if(event.ctrlKey||event.altKey||event.metaKey)return;
+
+    if(event.key==='ArrowRight'||event.key==='ArrowDown'||event.key==='PageDown'||event.key===' '){
+        event.preventDefault();
+        nextSlide();
+    }else if(event.key==='ArrowLeft'||event.key==='ArrowUp'||event.key==='PageUp'){
+        event.preventDefault();
+        prevSlide();
+    }else if(event.key==='Home'){
+        const first=usableSlideList()[0];
+        if(first){event.preventDefault();currentSlideIndex=first;click_index=1;updateSlide(first);}
+    }else if(event.key==='End'){
+        const slides=usableSlideList();
+        const last=slides[slides.length-1];
+        if(last){event.preventDefault();currentSlideIndex=last;click_index=0;updateSlide(last);}
+    }
+});
+
+function renderTeamComparison(
+    teamComparisonData,
+    staticData,
+    header
+) {
+    if (!hasArray(teamComparisonData) || !hasArray(staticData) || staticData.length < 2) {
+        return false;
+    }
+
+    const slideIndex = 4;
+
+    headerEl.innerHTML = header;
+
+    const team1Data = staticData[0];
+    const team2Data = staticData[1];
+
+    const team1Flag = document.getElementById('team_compare_flag1');
+    const team2Flag = document.getElementById('team_compare_flag2');
+    const team1Name = document.getElementById('team_compare_team1');
+    const team2Name = document.getElementById('team_compare_team2');
+
+    team1Name.textContent = getShortName(team1Data.team_name);
+    team2Name.textContent = getShortName(team2Data.team_name);
+
+    setFlagImage(team1Data.team_name, team1Flag, team1Data.flag);
+    setFlagImage(team2Data.team_name, team2Flag, team2Data.flag);
+
+    for (let index = 0; index < 5; index++) {
+        const box = document.getElementById(`box-${index + 2}`);
+        if (!box) continue;
+
+        box.innerHTML = '';
+
+        // Remove classes generated by the other logical comparison slide.
+        [...box.classList].forEach(className => {
+            if (className.startsWith('preview-slide-4-')) {
+                box.classList.remove(className);
+            }
+        });
+
+        box.className =
+            `comparison-stat-row comparison-row-${index + 1} ` +
+            `preview-slide-${slideIndex}-stat-row ` +
+            `preview-slide-${slideIndex}-row-${index + 1}`;
+
+        const raw = teamComparisonData[index];
+
+        if (raw === undefined || raw === null || String(raw).trim() === '') {
+            box.style.display = 'none';
+            continue;
+        }
+
+        box.style.display = 'grid';
+
+        const splitData = String(raw).split(' - ');
+        const leftValue = splitData[0] ?? '';
+        const label = splitData[1] ?? '';
+        const rightValue = splitData.slice(2).join(' - ') || '';
+
+        if (String(label).trim().toUpperCase() === 'NRR') {
+            box.classList.add(
+                'comparison-nrr-row',
+                `preview-slide-${slideIndex}-nrr-row`
+            );
+        }
+
+        const leftSide = document.createElement('div');
+        leftSide.className =
+            `comparison-stat-left ` +
+            `comparison-row-${index + 1}-left ` +
+            `preview-slide-${slideIndex}-stat-left ` +
+            `preview-slide-${slideIndex}-row-${index + 1}-left`;
+        leftSide.textContent = leftValue;
+
+        const middleSide = document.createElement('div');
+        middleSide.className =
+            `comparison-stat-label ` +
+            `comparison-row-${index + 1}-label ` +
+            `preview-slide-${slideIndex}-stat-label ` +
+            `preview-slide-${slideIndex}-row-${index + 1}-label`;
+        middleSide.textContent = label;
+
+        const rightSide = document.createElement('div');
+        rightSide.className =
+            `comparison-stat-right ` +
+            `comparison-row-${index + 1}-right ` +
+            `preview-slide-${slideIndex}-stat-right ` +
+            `preview-slide-${slideIndex}-row-${index + 1}-right`;
+        rightSide.textContent = rightValue;
+
+        box.append(leftSide, middleSide, rightSide);
+    }
+
+    return true;
+}
+
+function setFlagImage(team_name, imageBox, flagUrl) {
+    if(!imageBox)return;
+    imageBox.style.display = "flex";
+    const localFlag=`COMMON/Flags/${team_name}.gif`;
+    imageBox.style.backgroundImage = flagUrl?`url('${flagUrl}')`:'none';
+    loadImage(localFlag)
+      .then(url=>{imageBox.style.backgroundImage=`url('${encodeImageUrl(url)}')`;})
+      .catch(()=>{imageBox.style.backgroundImage=flagUrl?`url('${flagUrl}')`:'none';});
+    imageBox.style.backgroundSize = 'cover';
+    imageBox.style.backgroundPosition = 'center';
+    imageBox.style.backgroundRepeat = 'no-repeat';
+}
+
+function getShortName(name) {
+    name=String(name||'');
+    // Step 1: Replace "Women" with "W"
+    let shortName = name.replace("Women", "W");
+
+    if (shortName == "Sunrisers Hyderabad") {
+        shortName = "SRH"
+    }
+    // If longer than 13 characters, show initials
+    if (shortName.length > 13) {
+        document.getElementById('team1').style.fontSize = "120px";
+        document.getElementById('team2').style.fontSize = "120px";
+        document.getElementById('team_compare_team1').style.fontSize = "100px";
+        document.getElementById('team_compare_team2').style.fontSize = "100px";
+
+        return shortName
+            .split(" ") // Split into words
+            .map(word => word[0]) // Take the first letter of each word
+            .join(""); // Join letters together
+    }
+
+    return shortName;
+}
+
+// Renders one of the three intro slides into the #slide-1 box.
+// mode: 'match-status' | 'team-form' | 'winning-percentage'
+function renderIntroSlide(mode, data, wp) {
+    if (!Array.isArray(data) || data.length < 2) return false;
+
+    const slide = document.getElementById('slide-1');
+    const team1Box = document.getElementById('team1');
+    const team2Box = document.getElementById('team2');
+
+    // Clear old intro-slide content before drawing anything new.
+    document.querySelectorAll('.team-form-results').forEach(item => item.remove());
+    slide.classList.remove('team-form-mode');
+    document.getElementById('circular_flag1').style.display = "none";
+    document.getElementById('circular_flag2').style.display = "none";
+    team1Box.innerHTML = "";
+    team2Box.innerHTML = "";
+
+    if (mode === 'match-status') {
+        headerEl.innerHTML = "\u2694\ufe0f MATCH STATUS \u2694\ufe0f";
+        team1Box.textContent = getShortName(data[0].team_name);
+        team2Box.textContent = getShortName(data[1].team_name);
+        setFlagImage(data[0].team_name, document.getElementById('circular_flag1'), data[0].flag);
+        setFlagImage(data[1].team_name, document.getElementById('circular_flag2'), data[1].flag);
+        return;
+    }
+
+    if (mode === 'team-form') {
+        headerEl.innerHTML = "\uD83C\uDFCF TEAM FORM \uD83C\uDFCF";
+
+        // Same layout as Match Status.
+        slide.classList.add('team-form-mode');
+        team1Box.textContent = getShortName(data[0].team_name);
+        team2Box.textContent = getShortName(data[1].team_name);
+
+        setFlagImage(
+            data[0].team_name,
+            document.getElementById('circular_flag1'),
+            data[0].flag
+        );
+        setFlagImage(
+            data[1].team_name,
+            document.getElementById('circular_flag2'),
+            data[1].flag
+        );
+
+        // Recent form row directly underneath each team-name box.
+        const team1Results = document.createElement('div');
+        team1Results.className = 'team-form-results team-form-results-left preview-slide-2-left-form-box';
+
+        const team2Results = document.createElement('div');
+        team2Results.className = 'team-form-results team-form-results-right preview-slide-2-right-form-box';
+
+        createResultCircles(getTeamFormResults(data[0]), team1Results, 'left', 2);
+        createResultCircles(getTeamFormResults(data[1]), team2Results, 'right', 2);
+
+        slide.append(team1Results, team2Results);
+        return;
+    }
+
+    if (mode === 'winning-percentage') {
+        if (!wp?.team1 || !wp?.team2) return false;
+
+        headerEl.innerHTML = "\uD83C\uDFC6 MATCH WINNING PERCENTAGE \uD83C\uDFC6";
+
+        // Show the team flags OUTSIDE the bottom boxes,
+        // in the same circular positions used by Slides 1 and 2.
+        setFlagImage(
+            data[0].team_name,
+            document.getElementById('circular_flag1'),
+            data[0].flag
+        );
+        setFlagImage(
+            data[1].team_name,
+            document.getElementById('circular_flag2'),
+            data[1].flag
+        );
+
+        const probabilityRows = [wp.team1, wp.team2];
+
+        renderWinningTeam(
+            team1Box,
+            data[0],
+            probabilityFor(data[0], 0, probabilityRows),
+            'left',
+            3
+        );
+
+        renderWinningTeam(
+            team2Box,
+            data[1],
+            probabilityFor(data[1], 1, probabilityRows),
+            'right',
+            3
+        );
+
+        return;
+    }
+}
+
+// Creates W / L / D circles with slide-specific classes.
+function createResultCircles(results, container, side = '', logicalSlideIndex = 0) {
+    if (!Array.isArray(results)) results = [];
+
+    results.forEach((result, index) => {
+        const circle = document.createElement("div");
+        circle.textContent = result;
+        circle.classList.add("result-circle");
+
+        if (logicalSlideIndex && side) {
+            circle.classList.add(
+                `preview-slide-${logicalSlideIndex}-${side}-result`,
+                `preview-slide-${logicalSlideIndex}-${side}-result-${index + 1}`
+            );
+        }
+
+        if (result === "W") {
+            circle.classList.add("win");
+        } else if (result === "L") {
+            circle.classList.add("lose");
+        } else if (result === "D") {
+            circle.classList.add("draw");
+        }
+
+        container.appendChild(circle);
+    });
+}
+
+// Finds the probability row that matches the team, or uses a fallback row.
+function probabilityFor(team, index, probabilityRows) {
+    const names = [team.short_name, team.team_name, team.full_name]
+        .filter(Boolean)
+        .map(name => String(name).trim().toLowerCase());
+    return probabilityRows.find(row => row && names.includes(String(row.name || '').trim().toLowerCase())) || probabilityRows[index] || {};
+}
+
+// Draws one team's logo and winning percentage text.
+function renderWinningTeam(
+    container,
+    team,
+    row,
+    side,
+    logicalSlideIndex
+) {
+    container.innerHTML = '';
+
+    // The flag is rendered separately in circular_flag1 / circular_flag2.
+    // Keep the bottom winning-percentage box text-only.
+    const value = document.createElement('span');
+    value.className =
+        `winning-team-value preview-slide-${logicalSlideIndex}-${side}-value`;
+
+    value.textContent =
+        `${team.short_name || team.team_name || row.name || 'TEAM'} - ` +
+        `${row.probability ?? 'N/A'}`;
+
+    container.appendChild(value);
+}
+
+const HEAD_TO_HEAD_COLOR = "rgba(63, 43, 150, 1)";
+
+function renderPointsTable(pointsTable) {
+    if (
+        !pointsTable ||
+        !Array.isArray(pointsTable.headers) ||
+        !Array.isArray(pointsTable.data)
+    ) {
+        return false;
+    }
+
+    headerEl.innerHTML =
+        "\uD83D\uDCC8 " +
+        String(pointsTable.title || 'POINTS TABLE').substring(0, 32) +
+        " \uD83D\uDCC9";
+
+    const container = document.getElementById("slide-1-container");
+    if (!container) return false;
+
+    container.innerHTML = "";
+    container.className =
+        "slide-1-container preview-slide-6-points-container";
+
+    // --------------------------------------------------------
+    // Resolve column indexes from the JSON headers.
+    // This keeps the visual fixed even if the backend uses
+    // names such as Match/M, Won/W, Points/Pts.
+    // --------------------------------------------------------
+    const headers = pointsTable.headers.map(value =>
+        String(value ?? '').trim()
+    );
+
+    const normalize = value =>
+        String(value ?? '')
+            .trim()
+            .toUpperCase()
+            .replace(/[^A-Z0-9]/g, '');
+
+    function findHeaderIndex(aliases) {
+        const normalizedAliases = aliases.map(normalize);
+        return headers.findIndex(header =>
+            normalizedAliases.includes(normalize(header))
+        );
+    }
+
+    const teamHeaderIndex = findHeaderIndex([
+        'TEAM',
+        'TEAM NAME',
+        'TEAMNAME'
+    ]);
+
+    const matchHeaderIndex = findHeaderIndex([
+        'M',
+        'MAT',
+        'MATCH',
+        'MATCHES',
+        'PLAYED',
+        'P'
+    ]);
+
+    const winHeaderIndex = findHeaderIndex([
+        'W',
+        'WIN',
+        'WINS',
+        'WON'
+    ]);
+
+    const lossHeaderIndex = findHeaderIndex([
+        'L',
+        'LOSS',
+        'LOSSES',
+        'LOST'
+    ]);
+
+    const nrrHeaderIndex = findHeaderIndex([
+        'NRR',
+        'NETRR',
+        'NETRUNRATE'
+    ]);
+
+    const pointsHeaderIndex = findHeaderIndex([
+        'POINT',
+        'POINTS',
+        'PTS'
+    ]);
+
+    // --------------------------------------------------------
+    // Header row — exact six visual columns.
+    // --------------------------------------------------------
+    const tableHeader = document.createElement('div');
+    tableHeader.className = 'preview-slide-6-table-header';
+
+    const headerCells = [
+        ['TEAM', 'preview-slide-6-header-team'],
+        ['M', 'preview-slide-6-header-m'],
+        ['W', 'preview-slide-6-header-w'],
+        ['L', 'preview-slide-6-header-l'],
+        ['NRR', 'preview-slide-6-header-nrr'],
+        ['POINTS', 'preview-slide-6-header-points']
+    ];
+
+    headerCells.forEach(([text, className]) => {
+        const cell = document.createElement('div');
+        cell.className =
+            `preview-slide-6-header-cell ${className}`;
+        cell.textContent = text;
+        tableHeader.appendChild(cell);
+    });
+
+    container.appendChild(tableHeader);
+
+    const rows = pointsTable.data.filter(Array.isArray);
+
+    // Fit all point-table rows to the real visible preview height.
+    const tableHeaderHeight = 64;
+    const containerHeight = container.clientHeight || Math.max(0, window.innerHeight - 120);
+    const availableHeight = Math.max(0, containerHeight - tableHeaderHeight);
+    const rowHeight = rows.length
+        ? Math.max(46, Math.floor(availableHeight / rows.length))
+        : 76;
+
+    container.style.setProperty(
+        '--points-row-height',
+        `${rowHeight}px`
+    );
+
+    // --------------------------------------------------------
+    // Helper: detect common backend row shapes.
+    // --------------------------------------------------------
+    function parseTeamRow(teamData, rowIndex) {
+        const values = [...teamData];
+
+        let rank = rowIndex + 1;
+        let flag = '';
+        let teamName = '';
+
+        // Common shape A:
+        // [rank, flagUrl, teamName, ...stats]
+        if (
+            values.length >= 3 &&
+            !/^https?:/i.test(String(values[0] ?? '')) &&
+            /^https?:/i.test(String(values[1] ?? ''))
+        ) {
+            rank = values[0] || rowIndex + 1;
+            flag = values[1] || '';
+            teamName = values[2] || '';
+        }
+        // Common shape B:
+        // [flagUrl, teamName, ...stats]
+        else if (/^https?:/i.test(String(values[0] ?? ''))) {
+            flag = values[0] || '';
+            teamName = values[1] || '';
+        }
+        // Generic shape using headers.
+        else {
+            const possibleRank = values.find((value, index) =>
+                index < 2 && /^\d+$/.test(String(value ?? '').trim())
+            );
+
+            if (possibleRank !== undefined) {
+                rank = possibleRank;
+            }
+
+            const flagIndex = values.findIndex(value =>
+                /^https?:/i.test(String(value ?? ''))
+            );
+
+            if (flagIndex >= 0) {
+                flag = values[flagIndex] || '';
+            }
+
+            if (
+                teamHeaderIndex >= 0 &&
+                values[teamHeaderIndex] !== undefined
+            ) {
+                teamName = values[teamHeaderIndex] || '';
+            } else {
+                const candidate = values.find(value => {
+                    const text = String(value ?? '').trim();
+                    return (
+                        text &&
+                        !/^https?:/i.test(text) &&
+                        !/^[+\-]?\d+(\.\d+)?$/.test(text)
+                    );
+                });
+                teamName = candidate || '';
+            }
+        }
+
+        // Work out the stat start offset for the two common shapes.
+        const commonOffset =
+            /^https?:/i.test(String(values[0] ?? ''))
+                ? 2
+                : (
+                    values.length >= 3 &&
+                    /^https?:/i.test(String(values[1] ?? ''))
+                        ? 3
+                        : 0
+                );
+
+        const statValues =
+            commonOffset > 0 ? values.slice(commonOffset) : values;
+
+        function valueFromHeader(headerIndex, aliases, fallbackIndex) {
+            if (
+                headerIndex >= 0 &&
+                commonOffset === 0 &&
+                values[headerIndex] !== undefined
+            ) {
+                return values[headerIndex];
+            }
+
+            // For common row shapes the first two/three identifying
+            // fields are already removed, so map by the filtered
+            // backend header list.
+            const dataHeaders = headers.filter((header, index) => {
+                const key = normalize(header);
+                if (index === 0 && !key) return false;
+                return ![
+                    'TEAM',
+                    'TEAMNAME',
+                    'RANK',
+                    'POS',
+                    'POSITION',
+                    'FLAG',
+                    'LOGO',
+                    'CUPR'
+                ].includes(key);
+            });
+
+            const aliasKeys = aliases.map(normalize);
+            const filteredIndex = dataHeaders.findIndex(header =>
+                aliasKeys.includes(normalize(header))
+            );
+
+            if (
+                filteredIndex >= 0 &&
+                statValues[filteredIndex] !== undefined
+            ) {
+                return statValues[filteredIndex];
+            }
+
+            return statValues[fallbackIndex] ?? '';
+        }
+
+        return {
+            rank,
+            flag,
+            teamName,
+            matches: valueFromHeader(
+                matchHeaderIndex,
+                ['M', 'MAT', 'MATCH', 'MATCHES', 'PLAYED', 'P'],
+                0
+            ),
+            wins: valueFromHeader(
+                winHeaderIndex,
+                ['W', 'WIN', 'WINS', 'WON'],
+                1
+            ),
+            losses: valueFromHeader(
+                lossHeaderIndex,
+                ['L', 'LOSS', 'LOSSES', 'LOST'],
+                2
+            ),
+            nrr: valueFromHeader(
+                nrrHeaderIndex,
+                ['NRR', 'NETRR', 'NETRUNRATE'],
+                3
+            ),
+            points: valueFromHeader(
+                pointsHeaderIndex,
+                ['POINT', 'POINTS', 'PTS'],
+                4
+            )
+        };
+    }
+
+    // --------------------------------------------------------
+    // Team rows.
+    // --------------------------------------------------------
+    rows.forEach((teamData, index) => {
+        const team = parseTeamRow(teamData, index);
+
+        const row = document.createElement('div');
+        const paletteIndex = (index % 8) + 1;
+
+        row.className =
+            `preview-slide-6-table-row ` +
+            `preview-slide-6-row-${index + 1} ` +
+            `preview-slide-6-row-${paletteIndex}`;
+
+        // TEAM cell
+        const teamCell = document.createElement('div');
+        teamCell.className =
+            'preview-slide-6-cell preview-slide-6-team-cell';
+
+        const rank = document.createElement('div');
+        rank.className = 'preview-slide-6-rank';
+        rank.textContent = team.rank;
+
+        const logo = document.createElement('img');
+        logo.className = 'preview-slide-6-team-logo';
+        logo.alt = String(team.teamName || 'Team');
+
+        if (team.flag) {
+            logo.src = team.flag;
+        }
+
+        const teamName = document.createElement('div');
+        teamName.className = 'preview-slide-6-team-name';
+        teamName.textContent = team.teamName || 'N/A';
+
+        teamCell.append(rank, logo, teamName);
+
+        // Numeric cells
+        const matches = document.createElement('div');
+        matches.className =
+            'preview-slide-6-cell preview-slide-6-matches';
+        matches.textContent = team.matches;
+
+        const wins = document.createElement('div');
+        wins.className =
+            'preview-slide-6-cell preview-slide-6-wins';
+        wins.textContent = team.wins;
+
+        const losses = document.createElement('div');
+        losses.className =
+            'preview-slide-6-cell preview-slide-6-losses';
+        losses.textContent = team.losses;
+
+        const nrr = document.createElement('div');
+        nrr.className =
+            'preview-slide-6-cell preview-slide-6-nrr';
+        nrr.textContent = team.nrr;
+
+        const points = document.createElement('div');
+        points.className =
+            'preview-slide-6-cell preview-slide-6-points';
+        points.textContent = team.points;
+
+        row.append(
+            teamCell,
+            matches,
+            wins,
+            losses,
+            nrr,
+            points
+        );
+
+        container.appendChild(row);
+    });
+
+    return true;
+}
+
+function renderHeadToHead(data) {
+    if(!hasArray(data))return false;
+    const randomColor = HEAD_TO_HEAD_COLOR.replace(/1\)/, '0.5)');
+    document.documentElement.style.setProperty('--color4', randomColor);
+
+    headerEl.innerHTML = "\uD83E\uDD1C Head To Head \uD83E\uDD1B";
+
+    const container = document.getElementById("slide-2-container"); // Target the container
+    container.innerHTML = "";
+
+    const initialBox = document.createElement('div');
+    initialBox.className = 'slide-box';
+
+    initialBox.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <div class="left_side_slide1">
+                <div class="circle" style="background-image: url('${data[0].team1_logo}');"></div>
+                <span class="text-left_slide6">${data[0].team1_name}</span>
+            </div>
+            <div class="center-section">
+                ${data[0].team1_wins} - ${data[0].team2_wins}
+            </div>
+            <div class="left_side_slide2">
+                <span class="text-right_slide6">${data[0].team2_name}</span>
+                <div class="circle" style="background-image: url('${data[0].team2_logo}');"></div>
+            </div>
+        </div>
+    `;
+
+    container.appendChild(initialBox);
+
+    const recentMatches = data.slice(1, 6);
+
+    recentMatches.forEach((match, index) => {
+        const box = document.createElement('div');
+        box.className = `slide-box4 head-to-head-match-row head-to-head-row-${index + 1}`;
+
+        box.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; height: 100%;">
+                <div class="head_to_head-left">
+                    <div class="head-to-head-side-line">
+                        <span class="head-to-head-team-name">${match.team1_name}</span>
+                        <span class="head-to-head-score">${match.team1_runs} <span class="head-to-head-ball-count">(${match.team1_overs})</span></span>
+                    </div>
+                </div>
+                <div class="head_to_head-center">
+                    <span>${match.match_result}</span>
+                </div>
+                <div class="head_to_head-right">
+                    <div class="head-to-head-side-line">
+                        <span class="head-to-head-team-name">${match.team2_name}</span>
+                        <span class="head-to-head-score">${match.team2_runs} <span class="head-to-head-ball-count">(${match.team2_overs})</span></span>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        container.appendChild(box);
+        setTimeout(() => {
+            box.style.animation = "slideUp 0.8s ease-out forwards";
+        }, 50);
+    });
+}
+
+function renderWeather(weatherData) {
+    if(!hasObject(weatherData))return false;
+    headerEl.innerHTML = "\uD83C\uDF24\ufe0f Weather Report \uD83C\uDF24\ufe0f";
+
+    // Extract integer part using regex or parseInt
+    let rainValue = weatherData.Rain ? parseInt(weatherData.Rain) + "%" : "N/A";
+    let humidityValue = weatherData.Humidity ? parseInt(weatherData.Humidity) + "%" : "N/A";
+
+    document.getElementById('ground').innerHTML = weatherData.Stadium;
+
+    document.getElementById("rain_value").innerHTML = rainValue;
+    document.getElementById("temp_value").innerHTML = weatherData.Temp || "N/A";
+    document.getElementById("humidity_value").innerHTML = humidityValue;
+}
+
+function setColorPercentage(percentage) {
+    let leftDiv = document.getElementById("left");
+    let rightDiv = document.getElementById("right");
+
+    leftDiv.style.width = percentage + "%";
+    rightDiv.style.width = (100 - percentage) + "%";
+    rightDiv.style.left = percentage + "%";
+}
+
+function renderVenueStats(data) {
+    if(!hasObject(data))return false;
+
+    headerEl.innerHTML = "\uD83D\uDCCD Venue Stats \uD83D\uDCCD";
+    // Set data for slide6-box (Win Bat First and Win Bowl First)
+    const winBatFirstInt = parseInt(String(data.Win_Bat_First||'0').replace('%', ''));
+    setColorPercentage(winBatFirstInt);
+
+    document.getElementById('inner_circle').innerHTML = `Total Matches ${data.Matches_Played}`;
+
+    document.getElementById('slide6_box1').innerHTML = `Win Bat First:&nbsp <span style="color: green;">${data.Win_Bat_First}</span>`;
+    document.getElementById('slide6_box2').innerHTML = `Win Bowl First:&nbsp <span style="color: red;">${data.Win_Bowl_First}</span>`;
+
+    // Set data for the right side top boxes (Average 1st and 2nd Inns)
+    document.getElementById('slide6_average_1st').innerHTML = `AVG 1ST INNING:&nbsp <span style="color: white;">${data.Average_1st_Inns}</span>`;
+    document.getElementById('slide6_average_2nd').innerHTML = `AVG 2ND INNING:&nbsp <span style="color: white;">${data.Average_2nd_Inns}</span>`;
+
+    // Set data for match records
+    const matchRecords = data.Match_Records||{};
+    const record=name=>matchRecords[name]||{Matchup:'N/A',Score:'N/A'};
+
+    // Set match records with the middle data (Matchup) in black color
+    document.getElementById('slide6_match_record_2').innerHTML =
+        `Highest Total <span style="color: gold;">${String(record('Highest Total').Matchup).replace("by ", "")}</span><span>${record('Highest Total').Score}</span>`;
+
+    document.getElementById('slide6_match_record_1').innerHTML =
+        `Lowest Total <span style="color: gold;">${String(record('Lowest Total').Matchup).replace("by ", "")}</span><span>${record('Lowest Total').Score}</span>`;
+
+    document.getElementById('slide6_match_record_3').innerHTML =
+        `Highest Chased <span style="color: gold;">${String(record('Highest Chased').Matchup).replace("by ", "")}</span><span>${record('Highest Chased').Score}</span>`;
+
+    document.getElementById('slide6_match_record_4').innerHTML =
+        `Lowest Defended <span style="color: gold;">${String(record('Lowest Defended').Matchup).replace("by ", "")}</span><span>${record('Lowest Defended').Score}</span>`;
+}
+
+function renderPitchReport(data) {
+    if (data) {
+        const pace=data.pace||{};
+        const spin=data.spin||{};
+        const paceWickets=pace.wickets??data.pace_wkt??'N/A';
+        const spinWickets=spin.wickets??data.spin_wkt??'N/A';
+        const pacePercentRaw=pace.percent??data.pace_percent;
+        const spinPercentRaw=spin.percent??data.spin_percent;
+        const paceLabel=String(pacePercentRaw??'N/A').replace(/%?$/,'%');
+        headerEl.innerHTML = "\uD83D\uDEE3\ufe0f Pitch Report \uD83D\uDEE3\ufe0f";
+        document.getElementById('team1_probability').innerText = /wkt/i.test(String(paceWickets))?paceWickets:paceWickets+' Wkt';
+        document.getElementById('team2_probability').innerText = /wkt/i.test(String(spinWickets))?spinWickets:spinWickets+' Wkt';
+
+        // Set the background gradient based on team1 probability
+        const team1Probability = parseFloat(pacePercentRaw);
+        if (!isNaN(team1Probability) && team1Probability >= 0 && team1Probability <= 100) {
+            const divider = document.getElementById('divider');
+            divider.style.background = `linear-gradient(to right, #00e5ff ${team1Probability}%, #ffb300 ${team1Probability}%)`;
+            if (team1Probability <= 50) {
+                document.getElementById('pace_percent').innerHTML = 'HARD <span style="color: #ffd83d;">' + paceLabel + '</span>';
+                document.getElementById('spin_percent').innerHTML = 'EASY <span style="color: #ffd83d;">' + (spinPercentRaw??(100-team1Probability)) + '%</span>';
+            } else {
+                document.getElementById('pace_percent').innerHTML = 'EASY <span style="color: #ffd83d;">' + paceLabel + '</span>';
+                document.getElementById('spin_percent').innerHTML = 'HARD <span style="color: #ffd83d;">' + (spinPercentRaw??(100-team1Probability)) + '%</span>';
+            }
+
+        } else {
+            console.error("Invalid team1 probability value");
+        }
+    }
+}
+
+// Function to check if an image exists and load it
+function loadImage(url) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.src = url;
+        img.onload = () => resolve(url);
+        img.onerror = () => reject();
+    });
+}
+
+function encodeImageUrl(path) {
+    // Ensure the path is properly encoded
+    return path.split('/').map(part => encodeURIComponent(part)).join('/');
+}
+
+function renderUmpires(data) {
+    if(!hasObject(data))return false;
+    headerEl.innerHTML = "MATCH UMPIRES";
+    document.getElementById('umpire1').textContent = String(data.umpire1 || 'N/A').toUpperCase();
+    document.getElementById('umpire2').textContent = String(data.umpire2 || 'N/A').toUpperCase();
+    document.getElementById('umpire3').textContent = String(data.umpire3 || 'N/A').toUpperCase();
+}
+
+</script>
+
+</body>
+</html>
