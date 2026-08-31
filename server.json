@@ -4,20 +4,16 @@
   "exe_url": "https://github.com/shetom1234-dotcom/Trico/blob/main/Trico.exe",
   "notes": "TRICO v1.0",
   "devices": {
-    "676580126": {
-      "name": "CRICSPKOEN",
+    "43811182": {
+      "name": "CodingDaDa",
       "active": true,
-      "message": "THX FOR TRUST TRICO BRO",
-      "html": true,
-      "html_name": "CRICKETCOMMENT.html",
+      "message": "THX FOR TRUST CodingDaDa",
       "preview": true
     },
     "20497531": {
       "name": "Aditya",
       "active": false,
       "message": "Aditya, your TRICO access is currently disabled.",
-      "html": true,
-      "html_name": "CRICKETCOMMENT.html",
       "preview": false
     }
   }
